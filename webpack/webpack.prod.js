@@ -1,23 +1,40 @@
-const { merge } = require('webpack-merge')
+const { mergeWithRules } = require('webpack-merge')
 const base = require('./webpack.base.js')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-module.exports = merge(base, {
+const customMerge = mergeWithRules({
+    module: {
+        rules: {
+            test: 'match',
+            use: 'replace'
+        }
+    }
+})
+module.exports = customMerge(base, {
     mode: 'production',
+    output: {
+        publicPath: './'
+    },
     module: {
         rules: [
             {
-                test: /\.(s?c|le)ss$/,
-                exclude: /node_modules/,
+                test: /\.(css|scss|less)$/i,
+                // exclude: /node_modules/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    'css-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                        }
+                    },
                     {
                         loader: 'postcss-loader',
                         options: {
                             postcssOptions: {
                                 plugins: [
-                                    'postcss-preset-env'
+                                    'postcss-preset-env',
+                                    'autoprefixer'
                                 ]
                             }
                         },
@@ -34,6 +51,9 @@ module.exports = merge(base, {
     optimization: {
         minimizer: [
             new CssMinimizerPlugin()
-        ]
+        ],
+        splitChunks: {
+            chunks: 'all'
+        }
     }
 })
