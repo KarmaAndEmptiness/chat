@@ -62,7 +62,7 @@ const Register = () => {
                                 <LockOutlinedIcon />
                             </Avatar>
                             <Typography variant="h5">
-                                快捷登录
+                                账号注册
                             </Typography>
 
                             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>

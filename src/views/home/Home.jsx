@@ -1,47 +1,40 @@
-import React, { Suspense } from 'react'
-import CircularProgress from '@mui/material/CircularProgress';
+import React, { useState, Suspense } from 'react'
+
 import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
-import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
-import NoteAltRoundedIcon from '@mui/icons-material/NoteAltRounded';
-import SettingsIcon from '@mui/icons-material/Settings';
-import avatar from '~/assets/img/bg.jpg'
+
+import { CircularProgress, Box, Avatar, Drawer as MuiDrawer, AppBar as MuiAppBar, Toolbar, List, Typography, Divider, IconButton, Badge, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+
+import { ExitToAppOutlined as ExitToAppOutlinedIcon, ChevronLeft as ChevronLeftIcon, MessageOutlined as MessageOutlinedIcon, MessageRounded as MessageRoundedIcon, AccountBoxOutlined as AccountBoxOutlinedIcon, AccountBoxRounded as AccountBoxRoundedIcon, NoteAltOutlined as NoteAltOutlinedIcon, NoteAltRounded as NoteAltRoundedIcon, SettingsOutlined as SettingsOutlinedIcon, Settings as SettingsIcon } from '@mui/icons-material';
+
 const Message = React.lazy(() => import('./Message'))
+
+import avatar from '~/assets/img/bg.jpg'
+
+
 const drawerWidth = 240;
 const navs = [
     {
         name: '消息',
-        icon: MessageRoundedIcon,
+        icon: MessageOutlinedIcon,
+        activeIcon: MessageRoundedIcon,
         path: '/message'
     },
     {
         name: '通讯录',
-        icon: AccountBoxRoundedIcon,
+        icon: AccountBoxOutlinedIcon,
+        activeIcon: AccountBoxRoundedIcon,
         path: '/friend'
     },
     {
         name: '笔记',
-        icon: NoteAltRoundedIcon,
+        icon: NoteAltOutlinedIcon,
+        activeIcon: NoteAltRoundedIcon,
         path: '/note'
     },
     {
         name: '设置',
-        icon: SettingsIcon,
+        icon: SettingsOutlinedIcon,
+        activeIcon: SettingsIcon,
         path: '/settings'
     }
 ]
@@ -139,7 +132,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 const Home = () => {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [selectedNavIndex, setSelectedNavIndex] = useState(0)
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -149,7 +143,9 @@ const Home = () => {
         setOpen(false);
     };
 
-
+    const handleListItemClick = (event, index) => {
+        setSelectedNavIndex(index);
+    };
 
     return (
         <>
@@ -157,19 +153,7 @@ const Home = () => {
 
                 {/* 顶部导航栏 */}
                 <AppBar position="fixed" open={open}>
-                    <Toolbar sx={
-                        {
-                            paddingLeft: '14px !important',
-                            [theme.breakpoints.up('sm')]: {
-                                paddingLeft: '18px !important'
-                            },
-                            transition: theme.transitions.create('padding-left', {
-                                easing: theme.transitions.easing.sharp,
-                                duration: theme.transitions.duration.leavingScreen,
-                            }),
-                        }
-                    }>
-
+                    <Toolbar>
 
                         {/* 头像按钮：打开左侧导航栏 */}
                         <IconButton
@@ -212,49 +196,32 @@ const Home = () => {
                             paddingLeft: '14px'
                         }
                     }>
+                        {open && (
+                            <List>
+                                <ListItemButton>
+                                    <ListItemAvatar>
+                                        {/* 头像 */}
+                                        <StyledBadge
+                                            overlap="circular"
+                                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                            variant="dot"
+                                        >
+                                            <Avatar
+                                                alt="Remy Sharp"
+                                                src={avatar}
+                                            />
+                                        </StyledBadge>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        // 昵称
+                                        primary={"Remy Sharp"}
 
-                        {/* 头像 */}
-                        <StyledBadge
-                            overlap="circular"
-                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                            variant="dot"
-                        >
-                            <Avatar
-                                alt="Remy Sharp"
-                                src={avatar}
-                                sx={{ width: 38, height: 38 }}
-                            />
-                        </StyledBadge>
+                                        // 个性签名
+                                        secondary={"hola world."} />
+                                </ListItemButton>
+                            </List>
+                        )}
 
-
-                        <Box sx={
-                            {
-                                flex: 'auto',
-                                paddingLeft: '10px',
-                                height: '75%'
-                            }
-                        }>
-
-                            {/* 昵称 */}
-                            <Box sx={
-                                {
-                                    height: '40%',
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                }
-                            }>1</Box>
-
-                            {/* 个性签名 */}
-                            <Box sx={
-                                {
-                                    fontSize: '12px',
-                                    height: '60%',
-                                    border: '1px solid #ccc',
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                }
-                            }>2</Box>
-                        </Box>
 
                         {/* 收起导航栏按钮 */}
                         <IconButton onClick={handleDrawerClose}>
@@ -262,19 +229,26 @@ const Home = () => {
                         </IconButton>
                     </DrawerHeader>
 
-                    {/* 分割线 */}
-                    <Divider />
-
                     {/* 左侧导航栏菜单列表 */}
-                    <List>
-                        {navs.map(nav => (
-                            <ListItem key={nav.name} disablePadding sx={{ display: 'block' }}>
+                    <List
+                        sx={
+                            {
+                                flex: 'auto',
+                                display: 'flex',
+                                flexDirection: 'column'
+                            }
+                        }
+                    >
+                        {navs.map((nav, index) => (
+                            <ListItem key={nav.name} disablePadding>
                                 <ListItemButton
                                     sx={{
                                         minHeight: 48,
                                         justifyContent: open ? 'initial' : 'center',
                                         px: 2.5,
                                     }}
+                                    selected={selectedNavIndex === index}
+                                    onClick={(event) => handleListItemClick(event, index)}
                                 >
                                     <ListItemIcon
                                         sx={{
@@ -284,12 +258,40 @@ const Home = () => {
 
                                         }}
                                     >
-                                        {<nav.icon />}
+                                        {selectedNavIndex === index ? <nav.activeIcon /> : <nav.icon />}
                                     </ListItemIcon>
                                     <ListItemText primary={nav.name} sx={{ opacity: open ? 1 : 0 }} />
                                 </ListItemButton>
                             </ListItem>
                         ))}
+                        <ListItem key="nav-quit" disablePadding sx={
+                            {
+                                marginTop: 'auto',
+                            }
+                        }>
+                            <ListItemButton
+                                sx={
+                                    {
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
+                                    }
+                                }
+                            >
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+
+                                    }}
+                                >
+                                    <ExitToAppOutlinedIcon />
+                                </ListItemIcon>
+
+                                <ListItemText primary="退出登录" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        </ListItem>
                     </List>
                 </Drawer>
 
