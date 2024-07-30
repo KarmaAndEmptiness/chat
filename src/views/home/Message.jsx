@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
 
 import { Box, Badge, Paper, InputBase, Divider, IconButton, Typography, List, ListItemButton, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
-import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
-import SearchIcon from '@mui/icons-material/Search';
+import { GroupAddOutlined as GroupAddOutlinedIcon, Search as SearchIcon, InsertDriveFileSharp as InsertDriveFileSharpIcon } from '@mui/icons-material';
 
 import { chats } from '~/data/message.js'
 import avatar from '~/assets/img/bg.jpg'
@@ -164,51 +163,10 @@ const SessionList = () => {
 
 // 消息面板
 const MessagesPane = () => {
-    const [bottomBoxWidth, setBottomBoxWidth] = useState(200)
-    const [startY, setStartY] = useState(0)
-    const [mouseDown, setMouseDown] = useState(false)
-    const handleMouseMove = (e) => {
-        if (mouseDown) {
-            if (e.target.style.userSelect !== 'none') {
-                e.target.style.userSelect = 'none'
-            }
-            const offsetY = e.clientY - startY
-            if (bottomBoxWidth < 200) {
-                setBottomBoxWidth(200)
-                return
-            }
-            if (bottomBoxWidth > 500) {
-                setBottomBoxWidth(500)
-                return
-            }
 
-            // 上面的盒子越大，底下的盒子越小 所以是 prev - offsetY
-            setBottomBoxWidth(prev => (prev - offsetY))
-
-            // 以上一次的位置为起点算位移
-            setStartY(e.clientY)
-        }
-        else {
-            if (e.target.style.userSelect === 'none') {
-                e.target.style.userSelect = ''
-            }
-        }
-    }
-    const handleMouseDown = (e) => {
-        setMouseDown(true)
-        setStartY(e.clientY)
-        e.preventDefault()
-    }
-    const handleMouseUp = () => {
-        setMouseDown(false)
-    }
-
-    const handleMouseLeave = () => {
-        setMouseDown(false)
-    }
     return (
         <>
-            <Box onMouseLeave={handleMouseLeave}>
+            <Box>
                 {/* Header */}
                 <List sx={{ borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}>
                     <ListItem>
@@ -312,65 +270,294 @@ const MessagesPane = () => {
                         background: 'rgba(25, 118, 210, 0.08)'
                     }
                 }
-
-                    onMouseMove={handleMouseMove}
-                    onMouseUp={handleMouseUp}
                 >
 
                     {/* chatList */}
                     <Box sx={
                         {
                             flex: 'auto',
+                            padding: '10px',
+                            overflowY: 'auto',
+                            scrollbarWidth: 'thin'
                         }
                     }>
-                        <Box
-                            sx={
-                                {
-                                    borderRadius: '0 10px 10px',
-                                    backgroundColor: '#daf3fd',
-                                    width: 'fit-content'
-                                }
-                            }
-                        >
-
-                            {chats[0].messages[0].content}
-                        </Box>
-                    </Box>
-                    {/* 调整高度线 */}
-                    <Box sx={
                         {
-                            height: '2px',
+                            chats[0].messages.map((message) => (
+                                message.sender === 'You' ? (
+                                    <React.Fragment key={`message-${message.id}`}>
+                                        {/* you send */}
+                                        <Box
+                                            sx={
+                                                {
+                                                    display: 'flex',
+                                                    justifyContent: 'end',
+                                                    marginBottom: '20px'
+                                                }
+                                            }
+                                        >
+                                            <Box
+                                                sx={
+                                                    {
+                                                        marginRight: '10px'
+                                                    }
+                                                }
+                                            >
+                                                <Box
+                                                    sx={
+                                                        {
+                                                            display: 'flex',
+                                                            justifyContent: 'space-between',
+                                                        }
+                                                    }
+                                                >
+                                                    <Typography>{message.timestamp}</Typography>
+                                                    <Typography>{'You'}</Typography>
+                                                </Box>
+
+                                                {
+                                                    message.attachment ? (
+                                                        <>
+                                                            {/* file bubble */}
+                                                            <Box
+                                                                sx={
+                                                                    {
+                                                                        borderRadius: '10 0 10px 10px',
+                                                                        backgroundColor: '#1976d2',
+                                                                        width: 'fit-content',
+                                                                        padding: '8px',
+                                                                        maxWidth: '435px',
+                                                                    }
+                                                                }
+                                                            >
+                                                                <Box
+                                                                    sx={
+                                                                        {
+                                                                            display: 'flex',
+                                                                            alignItems: 'center'
+                                                                        }
+                                                                    }
+                                                                >
+                                                                    <Box
+                                                                        sx={
+                                                                            {
+                                                                                height: '45px',
+                                                                                width: '45px',
+                                                                                padding: '10px',
+                                                                                background: '#E3EFFB',
+                                                                                borderRadius: '50%',
+                                                                                paddingLeft: '11px'
+                                                                            }
+                                                                        }>
+                                                                        <InsertDriveFileSharpIcon sx={
+                                                                            {
+                                                                                color: '#12467B'
+                                                                            }
+                                                                        } />
+                                                                    </Box>
+                                                                    <Box
+                                                                        sx={
+                                                                            {
+                                                                                fontSize: '14px',
+                                                                                marginLeft: '10px',
+                                                                                color: '#fff'
+                                                                            }
+                                                                        }
+                                                                    >
+                                                                        <Box>
+                                                                            {message.attachment.fileName}
+                                                                        </Box>
+                                                                        <Box>
+                                                                            {message.attachment.size}
+                                                                        </Box>
+                                                                    </Box>
+                                                                </Box>
+                                                            </Box>
+                                                        </>
+                                                    ) : (<>
+                                                        {/* chat bubble */}
+                                                        <Box
+                                                            sx={
+                                                                {
+                                                                    borderRadius: '10px 0 10px 10px',
+                                                                    backgroundColor: '#1976d2',
+                                                                    width: 'fit-content',
+                                                                    padding: '8px',
+                                                                    maxWidth: '435px',
+                                                                    color: '#fff'
+                                                                }
+                                                            }
+                                                        >
+
+                                                            {message.content}
+                                                        </Box>
+                                                    </>)
+                                                }
+
+                                            </Box>
+
+                                            <Avatar alt="r" src={avatar} />
+                                        </Box>
+                                    </React.Fragment>
+                                ) : (
+                                    <React.Fragment key={`message-${message.id}`}>
+                                        {/* friend send */}
+                                        <Box
+                                            sx={
+                                                {
+                                                    display: 'flex',
+                                                    marginBottom: '20px'
+                                                }
+                                            }
+                                        >
+                                            <Avatar alt="r" src={avatar} />
+                                            <Box
+                                                sx={
+                                                    {
+                                                        marginLeft: '10px'
+                                                    }
+                                                }
+                                            >
+                                                <Box
+                                                    sx={
+                                                        {
+                                                            display: 'flex',
+                                                            justifyContent: 'space-between',
+                                                        }
+                                                    }
+                                                >
+                                                    <Typography>{message.sender.name}</Typography>
+                                                    <Typography>{message.timestamp}</Typography>
+                                                </Box>
+
+
+
+                                                {
+                                                    message.attachment ? (<>
+                                                        {/* file bubble */}
+                                                        <Box
+                                                            sx={
+                                                                {
+                                                                    borderRadius: '0 10px 10px',
+                                                                    backgroundColor: '#fff',
+                                                                    width: 'fit-content',
+                                                                    padding: '8px',
+                                                                    maxWidth: '435px'
+                                                                }
+                                                            }
+                                                        >
+                                                            <Box
+                                                                sx={
+                                                                    {
+                                                                        display: 'flex',
+                                                                        alignItems: 'center'
+                                                                    }
+                                                                }
+                                                            >
+                                                                <Box
+                                                                    sx={
+                                                                        {
+                                                                            height: '45px',
+                                                                            width: '45px',
+                                                                            padding: '10px',
+                                                                            background: '#E3EFFB',
+                                                                            borderRadius: '50%',
+                                                                            paddingLeft: '11px'
+                                                                        }
+                                                                    }>
+                                                                    <InsertDriveFileSharpIcon sx={
+                                                                        {
+                                                                            color: '#12467B'
+                                                                        }
+                                                                    } />
+                                                                </Box>
+                                                                <Box
+                                                                    sx={
+                                                                        {
+                                                                            fontSize: '14px',
+                                                                            marginLeft: '10px'
+                                                                        }
+                                                                    }
+                                                                >
+                                                                    <Box>
+                                                                        {message.attachment.fileName}
+                                                                    </Box>
+                                                                    <Box>
+                                                                        {message.attachment.size}
+                                                                    </Box>
+                                                                </Box>
+                                                            </Box>
+                                                        </Box>
+                                                    </>) : (
+                                                        <>
+                                                            {/* chat bubble */}
+                                                            <Box
+                                                                sx={
+                                                                    {
+                                                                        borderRadius: '0 10px 10px',
+                                                                        backgroundColor: '#fff',
+                                                                        width: 'fit-content',
+                                                                        padding: '8px',
+                                                                        maxWidth: '435px'
+                                                                    }
+                                                                }
+                                                            >
+                                                                {message.content}
+                                                            </Box>
+                                                        </>
+                                                    )
+                                                }
+                                            </Box>
+                                        </Box>
+                                    </React.Fragment>
+                                )
+                            ))
                         }
-                    }
-                        onMouseDown={handleMouseDown}
-                    >
-                        <Box
-                            sx={
-                                {
-                                    height: '1px',
-                                    width: '100%',
-                                    background: 'rgba(0, 0, 0, 0.12)',
-                                    '&:hover': {
-                                        height: '2px',
-                                        background: '#1890ff',
-                                        cursor: 'row-resize'
-                                    }
-                                }
-                            }
-                        ></Box>
                     </Box>
 
                     {/* message input */}
                     <Box
                         sx={
                             {
-                                minHeight: '200px',
-                                maxHeight: '500px',
-                                height: `${bottomBoxWidth}px`,
+                                flex: '1 0 165px',
+                                padding: '0 16px 24px',
+                                maxHeight: '200px'
                             }
                         }
                     >
-                        1
+
+                        <Box sx={
+                            {
+                                borderRadius: '6px',
+                                backgroundColor: '#fff',
+                                width: '100%',
+                                height: '100%',
+                                outline: '1px solid #ccc',
+                                padding: '0 5px',
+                                display: 'flex',
+                                flexDirection: 'column'
+                            }
+                        }>
+                            <textarea placeholder='type something here ....' style={
+                                {
+                                    flex: '1 1 70%',
+                                    resize: 'none',
+                                    outline: 'none',
+                                    border: 'none',
+                                    width: "100%",
+                                    borderBottom: '1px solid #ccc',
+                                    padding: '5px 0 5px 12px',
+                                }
+                            }>
+
+                            </textarea>
+                            <div style={
+                                {
+                                    flex: '0 0 30%',
+                                    width: '100%',
+                                }
+                            }>
+                            </div>
+                        </Box>
                     </Box>
 
                 </Box>
