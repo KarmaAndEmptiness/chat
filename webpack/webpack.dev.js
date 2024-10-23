@@ -7,6 +7,7 @@ module.exports = merge(base, {
     },
     devServer: {
         port: 3000,
-        allowedHosts: 'all'
+        allowedHosts: 'all',
+        historyApiFallback: true, // 支持 SPA 路由
     },
 })
