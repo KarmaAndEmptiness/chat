@@ -5,8 +5,12 @@ import { styled, useTheme } from '@mui/material/styles';
 import { CircularProgress, Box, Avatar, Drawer as MuiDrawer, AppBar as MuiAppBar, Toolbar, List, Typography, Divider, IconButton, Badge, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 import { ExitToAppOutlined as ExitToAppOutlinedIcon, ChevronLeft as ChevronLeftIcon, MessageOutlined as MessageOutlinedIcon, MessageRounded as MessageRoundedIcon, AccountBoxOutlined as AccountBoxOutlinedIcon, AccountBoxRounded as AccountBoxRoundedIcon, NoteAltOutlined as NoteAltOutlinedIcon, NoteAltRounded as NoteAltRoundedIcon, SettingsOutlined as SettingsOutlinedIcon, Settings as SettingsIcon } from '@mui/icons-material';
+import { Route, Routes, useNavigate, Redirect } from 'react-router-dom';
 
 const Message = React.lazy(() => import('./Message'))
+const Friend = React.lazy(() => import('./Friend'))
+const Note = React.lazy(() => import('./Note'))
+const Setting = React.lazy(() => import('./Setting'))
 
 import avatar from '~/assets/img/bg.jpg'
 
@@ -35,7 +39,7 @@ const navs = [
         name: '设置',
         icon: SettingsOutlinedIcon,
         activeIcon: SettingsIcon,
-        path: '/settings'
+        path: '/setting'
     }
 ]
 const openedMixin = (theme) => ({
@@ -132,6 +136,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 const Home = () => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [selectedNavIndex, setSelectedNavIndex] = useState(0)
 
@@ -143,8 +148,9 @@ const Home = () => {
         setOpen(false);
     };
 
-    const handleListItemClick = (event, index) => {
+    const handleListItemClick = (event, index, path) => {
         setSelectedNavIndex(index);
+        navigate(path, { replace: true })
     };
 
     return (
@@ -248,8 +254,9 @@ const Home = () => {
                                         px: 2.5,
                                     }}
                                     selected={selectedNavIndex === index}
-                                    onClick={(event) => handleListItemClick(event, index)}
+                                    onClick={(event) => handleListItemClick(event, index, nav.path)}
                                 >
+
                                     <ListItemIcon
                                         sx={{
                                             minWidth: 0,
@@ -261,6 +268,7 @@ const Home = () => {
                                         {selectedNavIndex === index ? <nav.activeIcon /> : <nav.icon />}
                                     </ListItemIcon>
                                     <ListItemText primary={nav.name} sx={{ opacity: open ? 1 : 0 }} />
+
                                 </ListItemButton>
                             </ListItem>
                         ))}
@@ -316,7 +324,22 @@ const Home = () => {
                         </div>
                     }
                     >
-                        <Message />
+                        <Routes>
+                            <Route name="message page" path='/message' element={
+                                <Message />
+                            } />
+                            <Route name="friend page" path='/friend' element={
+                                <Friend />
+                            } />
+                            <Route name="Note page" path='/note' element={
+                                <Note />
+                            } />
+                            <Route name="Setting page" path='/setting' element={
+                                <Setting />
+                            } />
+
+                            {/* <Redirect to="/message" /> */}
+                        </Routes>
                     </Suspense>
                 </Box>
             </Box>
