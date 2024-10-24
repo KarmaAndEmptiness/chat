@@ -5,12 +5,12 @@ import { styled, useTheme } from '@mui/material/styles';
 import { CircularProgress, Box, Avatar, Drawer as MuiDrawer, AppBar as MuiAppBar, Toolbar, List, Typography, Divider, IconButton, Badge, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 import { ExitToAppOutlined as ExitToAppOutlinedIcon, ChevronLeft as ChevronLeftIcon, MessageOutlined as MessageOutlinedIcon, MessageRounded as MessageRoundedIcon, AccountBoxOutlined as AccountBoxOutlinedIcon, AccountBoxRounded as AccountBoxRoundedIcon, NoteAltOutlined as NoteAltOutlinedIcon, NoteAltRounded as NoteAltRoundedIcon, SettingsOutlined as SettingsOutlinedIcon, Settings as SettingsIcon } from '@mui/icons-material';
-import { Route, Routes, useNavigate, Redirect } from 'react-router-dom';
+import { Route, Routes, useNavigate, Redirect, Outlet } from 'react-router-dom';
 
 const Message = React.lazy(() => import('./Message'))
-const Friend = React.lazy(() => import('./Friend'))
+const Friend = React.lazy(() => import('./Friend/Friend'))
 const Note = React.lazy(() => import('./Note'))
-const Setting = React.lazy(() => import('./Setting'))
+const Setting = React.lazy(() => import('./Setting/Setting'))
 
 import avatar from '~/assets/img/bg.jpg'
 
@@ -21,25 +21,25 @@ const navs = [
         name: '消息',
         icon: MessageOutlinedIcon,
         activeIcon: MessageRoundedIcon,
-        path: '/message'
+        path: 'message'
     },
     {
         name: '通讯录',
         icon: AccountBoxOutlinedIcon,
         activeIcon: AccountBoxRoundedIcon,
-        path: '/friend'
+        path: 'friend'
     },
     {
         name: '笔记',
         icon: NoteAltOutlinedIcon,
         activeIcon: NoteAltRoundedIcon,
-        path: '/note'
+        path: 'note'
     },
     {
         name: '设置',
         icon: SettingsOutlinedIcon,
         activeIcon: SettingsIcon,
-        path: '/setting'
+        path: 'setting'
     }
 ]
 const openedMixin = (theme) => ({
@@ -150,7 +150,7 @@ const Home = () => {
 
     const handleListItemClick = (event, index, path) => {
         setSelectedNavIndex(index);
-        navigate(path, { replace: true })
+        navigate(`/home/${path}`, { replace: true })
     };
 
     return (
@@ -314,7 +314,7 @@ const Home = () => {
                     <Suspense fallback={
                         <div style={
                             {
-                                height: '100vh',
+                                height: '100%',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center'
@@ -325,21 +325,21 @@ const Home = () => {
                     }
                     >
                         <Routes>
-                            <Route name="message page" path='/message' element={
+                            <Route index name="message page" path='message' element={
                                 <Message />
                             } />
-                            <Route name="friend page" path='/friend' element={
+                            <Route name="friend page" path='friend/*' element={
                                 <Friend />
                             } />
-                            <Route name="Note page" path='/note' element={
+                            <Route name="Note page" path='note' element={
                                 <Note />
                             } />
-                            <Route name="Setting page" path='/setting' element={
+                            <Route name="Setting page" path='setting/*' element={
                                 <Setting />
                             } />
 
-                            {/* <Redirect to="/message" /> */}
                         </Routes>
+                        {/* <Outlet /> */}
                     </Suspense>
                 </Box>
             </Box>
