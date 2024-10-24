@@ -1,15 +1,16 @@
 import React, { Suspense } from 'react'
-import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
-const Login = React.lazy(() => import('./views/login/Login'))
-const Register = React.lazy(() => import('./views/register/Register'))
-const Home = React.lazy(() => import('./views/home/Home'))
-import CssBaseline from '@mui/material/CssBaseline';
-
+import { CssBaseline } from '@mui/material';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+
+import Layout from './views/Layout';
+import Login from './views/login/Login'
+import Register from './views/register/Register'
+import Home from './views/home/Home'
 
 const App = () => {
     return (
@@ -30,18 +31,21 @@ const App = () => {
                 }
                 >
                     <Routes>
-                        <Route path="/login" name="Login Page" element={
-                            <Login />
-                        } />
-                        <Route path="/register" name="Register Page" element={
-                            <Register />
-                        } />
-                        <Route path="*" name="Home Page" element={
-                            <Home />
-                        } />
+                        <Route path="/" name="Layout page" element={<Layout />}>
+                            <Route path="login" name="Login Page" element={
+                                <Login />
+                            } />
+                            <Route path="register" name="Register Page" element={
+                                <Register />
+                            } />
+                            <Route path="home/*" name="Home Page" element={
+                                <Home />
+                            } />
+                        </Route>
                     </Routes>
                 </Suspense>
             </BrowserRouter>
+            <Layout />
         </>
     )
 }
