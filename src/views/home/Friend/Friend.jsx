@@ -114,7 +114,6 @@ export default function Friend() {
                             <Route path='my-friends' element={<MyFriends />} />
                             <Route path='my-group' element={<MyGroup />} />
                             <Route path='open-group' element={<OpenGroup />} />
-                            <Route path='*' element={<FriendNote />} />
                         </Routes>
                     </Suspense>
                 </div>
@@ -145,4 +144,6 @@ const leftContainerStyle = {
 
 const rightContainerStyle = {
     width: 'calc(100% - 180px)',
+    height: 'calc(100vh - 239px)',
+    backGroundColor: 'pink'
 }
