@@ -1,5 +1,6 @@
 export const friends = [
     {
+        id: 1,
         name: 'Steve E.',
         username: '@steveEberger',
         avatar: '/static/images/avatar/2.jpg',
@@ -11,6 +12,7 @@ export const friends = [
         group: '全部'
     },
     {
+        id: 2,
         name: 'Katherine Moss',
         username: '@kathy',
         avatar: '/static/images/avatar/3.jpg',
@@ -23,6 +25,7 @@ export const friends = [
         personalSign: 'hhh'
     },
     {
+        id: 3,
         name: 'Phoenix Baker',
         username: '@phoenix',
         avatar: '/static/images/avatar/1.jpg',
@@ -35,6 +38,7 @@ export const friends = [
         personalSign: 'hhh'
     },
     {
+        id: 4,
         name: 'Eleanor Pena',
         username: '@eleanor',
         avatar: '/static/images/avatar/4.jpg',
@@ -47,6 +51,7 @@ export const friends = [
         personalSign: 'hhh'
     },
     {
+        id: 5,
         name: 'Kenny Peterson',
         username: '@kenny',
         avatar: '/static/images/avatar/5.jpg',
@@ -59,6 +64,7 @@ export const friends = [
         personalSign: null
     },
     {
+        id: 6,
         name: 'Al Sanders',
         username: '@al',
         avatar: '/static/images/avatar/6.jpg',
@@ -71,6 +77,7 @@ export const friends = [
         personalSign: null
     },
     {
+        id: 7,
         name: 'Melissa Van Der Berg',
         username: '@melissa',
         avatar: '/static/images/avatar/7.jpg',
@@ -83,6 +90,7 @@ export const friends = [
         personalSign: null
     },
     {
+        id: 8,
         name: '张三',
         username: '@zhangsan',
         avatar: '/static/images/avatar/8.jpg',
@@ -95,6 +103,7 @@ export const friends = [
         personalSign: null
     },
     {
+        id: 9,
         name: '李四',
         username: '@lisi',
         avatar: '/static/images/avatar/9.jpg',
