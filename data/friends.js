@@ -1,7 +1,7 @@
 export const friends = [
     {
         id: 1,
-        name: 'Steve E.',
+        nickname: 'Steve E.',
         username: '@steveEberger',
         avatar: '/static/images/avatar/2.jpg',
         online: true,
@@ -13,7 +13,7 @@ export const friends = [
     },
     {
         id: 2,
-        name: 'Katherine Moss',
+        nickname: 'Katherine Moss',
         username: '@kathy',
         avatar: '/static/images/avatar/3.jpg',
         online: false,
@@ -26,7 +26,7 @@ export const friends = [
     },
     {
         id: 3,
-        name: 'Phoenix Baker',
+        nickname: 'Phoenix Baker',
         username: '@phoenix',
         avatar: '/static/images/avatar/1.jpg',
         online: true,
@@ -39,7 +39,7 @@ export const friends = [
     },
     {
         id: 4,
-        name: 'Eleanor Pena',
+        nickname: 'Eleanor Pena',
         username: '@eleanor',
         avatar: '/static/images/avatar/4.jpg',
         online: false,
@@ -52,7 +52,7 @@ export const friends = [
     },
     {
         id: 5,
-        name: 'Kenny Peterson',
+        nickname: 'Kenny Peterson',
         username: '@kenny',
         avatar: '/static/images/avatar/5.jpg',
         online: true,
@@ -65,7 +65,7 @@ export const friends = [
     },
     {
         id: 6,
-        name: 'Al Sanders',
+        nickname: 'Al Sanders',
         username: '@al',
         avatar: '/static/images/avatar/6.jpg',
         online: true,
@@ -78,7 +78,7 @@ export const friends = [
     },
     {
         id: 7,
-        name: 'Melissa Van Der Berg',
+        nickname: 'Melissa Van Der Berg',
         username: '@melissa',
         avatar: '/static/images/avatar/7.jpg',
         online: false,
@@ -91,7 +91,7 @@ export const friends = [
     },
     {
         id: 8,
-        name: '张三',
+        nickname: '张三',
         username: '@zhangsan',
         avatar: '/static/images/avatar/8.jpg',
         online: false,
@@ -104,7 +104,7 @@ export const friends = [
     },
     {
         id: 9,
-        name: '李四',
+        nickname: '李四',
         username: '@lisi',
         avatar: '/static/images/avatar/9.jpg',
         online: false,
