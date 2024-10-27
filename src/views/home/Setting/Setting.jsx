@@ -47,7 +47,7 @@ const LeftBox = function () {
     const navigate = useNavigate();
     const handleListItemClick = (event, index, path) => {
         setSelectedIndex(index);
-        navigate(`/home/setting/${path}`, { replace: false });
+        navigate(`/setting/${path}`, { replace: false });
     };
     return (
         <List component="nav" >

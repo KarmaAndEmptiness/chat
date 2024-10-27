@@ -7,7 +7,6 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import Layout from './views/Layout';
 import Login from './views/login/Login'
 import Register from './views/register/Register'
 import Home from './views/home/Home'
@@ -31,21 +30,18 @@ const App = () => {
                 }
                 >
                     <Routes>
-                        <Route path="/" name="Layout page" element={<Layout />}>
-                            <Route path="login" name="Login Page" element={
-                                <Login />
-                            } />
-                            <Route path="register" name="Register Page" element={
-                                <Register />
-                            } />
-                            <Route path="home/*" name="Home Page" element={
-                                <Home />
-                            } />
-                        </Route>
+                        <Route path="login" name="Login Page" element={
+                            <Login />
+                        } />
+                        <Route path="register" name="Register Page" element={
+                            <Register />
+                        } />
+                        <Route path="/*" name="Home Page" element={
+                            <Home />
+                        } />
                     </Routes>
                 </Suspense>
             </BrowserRouter>
-            <Layout />
         </>
     )
 }

@@ -8,53 +8,137 @@ import { GroupAddOutlined as GroupAddOutlinedIcon, Search as SearchIcon, InsertD
 import { chats } from '~/data/message.js'
 import avatar from '~/assets/img/bg.jpg'
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
-    '& .MuiBadge-badge': {
-        backgroundColor: '#44b700',
-        color: '#44b700',
-        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-        '&::after': {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            borderRadius: '50%',
-            animation: 'ripple 1.2s infinite ease-in-out',
-            border: '1px solid currentColor',
-            content: '""',
-        },
-    },
-    '@keyframes ripple': {
-        '0%': {
-            transform: 'scale(.8)',
-            opacity: 1,
-        },
-        '100%': {
-            transform: 'scale(2.4)',
-            opacity: 0,
-        },
-    },
-}));
+const Message = () => {
+    const [leftBoxWidth, setLeftBoxWidth] = useState(350)
+    const [startX, setStartX] = useState(0)
+    const [mouseDown, setMouseDown] = useState(false)
+    const handleMouseMove = (e) => {
+        if (mouseDown) {
+            if (e.target.style.userSelect !== 'none') {
+                e.target.style.userSelect = 'none'
+            }
+            const offsetX = e.clientX - startX
+            if (leftBoxWidth < 200) {
+                setLeftBoxWidth(200)
+                return
+            }
+            if (leftBoxWidth > 500) {
+                setLeftBoxWidth(500)
+                return
+            }
+            setLeftBoxWidth(prev => (prev + offsetX))
 
+            // 以上一次的位置为起点算位移
+            setStartX(e.clientX)
+        }
+        else {
+            if (e.target.style.userSelect === 'none') {
+                e.target.style.userSelect = ''
+            }
+        }
+    }
+    const handleMouseDown = (e) => {
+        setMouseDown(true)
+        setStartX(e.clientX)
+        e.preventDefault()
+    }
+    const handleMouseUp = () => {
+        setMouseDown(false)
+    }
+    const handleMouseLeave = () => {
+        setMouseDown(false)
+    }
+
+    return (
+        <>
+            <Box sx={
+                {
+                    height: '100%',
+                    display: 'flex',
+
+                }
+            }
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+            >
+
+                {/* 左侧区域 */}
+                <Box sx={
+                    {
+                        width: `${leftBoxWidth}px`,
+                        minWidth: '200px',
+                        maxWidth: '500px',
+                        padding: '20px 5px 0px 5px',
+                    }
+                }>
+                    {/* 搜索 */}
+                    <Search />
+
+                    {/* 会话记录 */}
+                    <SessionList />
+                </Box>
+
+                {/* 调整宽度线 */}
+                <Box sx={
+                    {
+                        width: '2px',
+                    }
+                }
+                    onMouseDown={handleMouseDown}
+                >
+                    <Box
+                        sx={
+                            {
+                                width: '1px',
+                                height: '100%',
+                                backgroundColor: 'rgba(0, 0, 0, 0.12)',
+                                '&:hover': {
+                                    width: '2px',
+                                    backgroundColor: '#1890ff',
+                                    cursor: 'col-resize'
+                                }
+                            }
+                        }
+                    ></Box>
+                </Box>
+
+                {/* 右侧区域 */}
+                <Box sx={
+                    {
+                        flex: 'auto',
+                    }
+                }>
+                    <MessagesPane />
+                </Box>
+            </Box>
+        </>
+    )
+}
+export default Message;
 
 // 搜索模块
 const Search = () => {
     return (
         <Paper
-            component="form"
-            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', marginTop: '10px', border: '1px solid rgba(0, 0, 0, 0.12)' }}
+            sx={{ display: 'flex', alignItems: 'center', width: '100%', border: '1px solid rgba(0, 0, 0, 0.12)' }}
             elevation={0}
         >
             <InputBase
-                sx={{ ml: 1, flex: 1 }}
+                sx={{
+                    ml: 1, flex: 1, display: 'inline-flex', alignItems: 'center',
+                    '& > input': {
+                        padding: '0px',
+                        fontSize: '13px'
+                    }
+                }}
                 placeholder="搜索好友/群聊"
             />
-            <IconButton type="button" sx={{ p: '10px' }}>
+            <IconButton type="button" sx={{ p: '5px' }}>
                 <SearchIcon />
             </IconButton>
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton color="primary" sx={{ p: '10px' }} >
+            <IconButton color="primary" sx={{ p: '5px' }} >
                 <GroupAddOutlinedIcon />
             </IconButton>
         </Paper>
@@ -566,111 +650,32 @@ const MessagesPane = () => {
     )
 }
 
-const Message = () => {
-    const [leftBoxWidth, setLeftBoxWidth] = useState(350)
-    const [startX, setStartX] = useState(0)
-    const [mouseDown, setMouseDown] = useState(false)
-    const handleMouseMove = (e) => {
-        if (mouseDown) {
-            if (e.target.style.userSelect !== 'none') {
-                e.target.style.userSelect = 'none'
-            }
-            const offsetX = e.clientX - startX
-            if (leftBoxWidth < 200) {
-                setLeftBoxWidth(200)
-                return
-            }
-            if (leftBoxWidth > 500) {
-                setLeftBoxWidth(500)
-                return
-            }
-            setLeftBoxWidth(prev => (prev + offsetX))
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        backgroundColor: '#44b700',
+        color: '#44b700',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+        '&::after': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            animation: 'ripple 1.2s infinite ease-in-out',
+            border: '1px solid currentColor',
+            content: '""',
+        },
+    },
+    '@keyframes ripple': {
+        '0%': {
+            transform: 'scale(.8)',
+            opacity: 1,
+        },
+        '100%': {
+            transform: 'scale(2.4)',
+            opacity: 0,
+        },
+    },
+}));
 
-            // 以上一次的位置为起点算位移
-            setStartX(e.clientX)
-        }
-        else {
-            if (e.target.style.userSelect === 'none') {
-                e.target.style.userSelect = ''
-            }
-        }
-    }
-    const handleMouseDown = (e) => {
-        setMouseDown(true)
-        setStartX(e.clientX)
-        e.preventDefault()
-    }
-    const handleMouseUp = () => {
-        setMouseDown(false)
-    }
-    const handleMouseLeave = () => {
-        setMouseDown(false)
-    }
-
-    return (
-        <>
-            <Box sx={
-                {
-                    height: '100%',
-                    display: 'flex',
-
-                }
-            }
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseLeave}
-            >
-
-                {/* 左侧区域 */}
-                <Box sx={
-                    {
-                        width: `${leftBoxWidth}px`,
-                        minWidth: '200px',
-                        maxWidth: '500px',
-                        padding: '0 5px'
-                    }
-                }>
-                    {/* 搜索 */}
-                    <Search />
-
-                    {/* 会话记录 */}
-                    <SessionList />
-                </Box>
-
-                {/* 调整宽度线 */}
-                <Box sx={
-                    {
-                        width: '2px',
-                    }
-                }
-                    onMouseDown={handleMouseDown}
-                >
-                    <Box
-                        sx={
-                            {
-                                width: '1px',
-                                height: '100%',
-                                backgroundColor: 'rgba(0, 0, 0, 0.12)',
-                                '&:hover': {
-                                    width: '2px',
-                                    backgroundColor: '#1890ff',
-                                    cursor: 'col-resize'
-                                }
-                            }
-                        }
-                    ></Box>
-                </Box>
-
-                {/* 右侧区域 */}
-                <Box sx={
-                    {
-                        flex: 'auto',
-                    }
-                }>
-                    <MessagesPane />
-                </Box>
-            </Box>
-        </>
-    )
-}
-export default Message;
