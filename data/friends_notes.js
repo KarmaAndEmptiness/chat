@@ -1,4 +1,4 @@
-export const friends = [
+export const friendsNotes = [
     {
         id: 1,
         nickname: 'Steve E.',
@@ -9,7 +9,8 @@ export const friends = [
         phone: '12345678912',
         gender: 1,
         email: '45465@qq.com',
-        group: '全部'
+        group: '全部',
+        createdAt: '10/25 14:42'
     },
     {
         id: 2,
@@ -22,7 +23,8 @@ export const friends = [
         gender: 1,
         email: '45465@qq.com',
         group: '全部',
-        personalSign: 'hhh'
+        personalSign: 'hhh',
+        createdAt: '10/25 14:42'
     },
     {
         id: 3,
@@ -35,7 +37,8 @@ export const friends = [
         gender: 1,
         email: '45465@qq.com',
         group: '全部',
-        personalSign: 'hhh'
+        personalSign: 'hhh',
+        createdAt: '10/25 14:42'
     },
     {
         id: 4,
@@ -48,7 +51,8 @@ export const friends = [
         gender: 1,
         email: '45465@qq.com',
         group: '全部',
-        personalSign: 'hhh'
+        personalSign: 'hhh',
+        createdAt: '10/25 14:42'
     },
     {
         id: 5,
@@ -61,7 +65,8 @@ export const friends = [
         gender: null,
         email: '45465@qq.com',
         group: '全部',
-        personalSign: null
+        personalSign: null,
+        createdAt: '10/25 14:42'
     },
     {
         id: 6,
@@ -74,7 +79,8 @@ export const friends = [
         gender: 0,
         email: null,
         group: '全部',
-        personalSign: null
+        personalSign: null,
+        createdAt: '10/25 14:42'
     },
     {
         id: 7,
@@ -87,7 +93,8 @@ export const friends = [
         gender: 0,
         email: '45465@qq.com',
         group: '全部',
-        personalSign: null
+        personalSign: null,
+        createdAt: '10/25 14:42'
     },
     {
         id: 8,
@@ -100,7 +107,8 @@ export const friends = [
         gender: 1,
         email: '45465@qq.com',
         group: '全部',
-        personalSign: null
+        personalSign: null,
+        createdAt: '10/25 14:42'
     },
     {
         id: 9,
@@ -113,7 +121,8 @@ export const friends = [
         gender: 1,
         email: '45465@qq.com',
         group: '全部',
-        personalSign: null
+        personalSign: null,
+        createdAt: '10/25 14:42'
     },
     {
         id: 10,
@@ -126,7 +135,8 @@ export const friends = [
         gender: 1,
         email: 'sarah@example.com',
         group: '全部',
-        personalSign: 'Living life to the fullest'
+        personalSign: 'Living life to the fullest',
+        createdAt: '10/25 14:42'
     },
     {
         id: 11,
@@ -151,7 +161,8 @@ export const friends = [
         gender: 1,
         email: 'mike@example.com',
         group: '好友',
-        personalSign: 'Coding is life'
+        personalSign: 'Coding is life',
+        createdAt: '10/25 14:42'
     },
     {
         id: 13,
@@ -176,7 +187,8 @@ export const friends = [
         gender: 1,
         email: 'emma@example.com',
         group: '好友',
-        personalSign: 'Travel enthusiast'
+        personalSign: 'Travel enthusiast',
+        createdAt: '10/25 14:42'
     },
     {
         id: 15,
@@ -201,7 +213,8 @@ export const friends = [
         gender: 1,
         email: 'david@example.com',
         group: '同学',
-        personalSign: 'Music lover'
+        personalSign: 'Music lover',
+        createdAt: '10/25 14:42'
     },
     {
         id: 17,
@@ -226,7 +239,8 @@ export const friends = [
         gender: 1,
         email: 'linda@example.com',
         group: '同学',
-        personalSign: 'Food blogger'
+        personalSign: 'Food blogger',
+        createdAt: '10/25 14:42'
     },
     {
         id: 19,
@@ -251,7 +265,8 @@ export const friends = [
         gender: 1,
         email: 'robert@example.com',
         group: '同学',
-        personalSign: 'Sports fanatic'
+        personalSign: 'Sports fanatic',
+        createdAt: '10/25 14:42'
     },
     {
         id: 21,
@@ -276,7 +291,8 @@ export const friends = [
         gender: 1,
         email: 'jessica@example.com',
         group: '同事',
-        personalSign: 'Art lover'
+        personalSign: 'Art lover',
+        createdAt: '10/25 14:42'
     },
     {
         id: 23,
@@ -301,7 +317,8 @@ export const friends = [
         gender: 1,
         email: 'thomas@example.com',
         group: '同事',
-        personalSign: 'Tech geek'
+        personalSign: 'Tech geek',
+        createdAt: '10/25 14:42'
     },
     {
         id: 25,
@@ -326,7 +343,8 @@ export const friends = [
         gender: 1,
         email: 'anna@example.com',
         group: '家人',
-        personalSign: 'Photography enthusiast'
+        personalSign: 'Photography enthusiast',
+        createdAt: '10/25 14:42'
     },
     {
         id: 27,
@@ -351,7 +369,8 @@ export const friends = [
         gender: 1,
         email: 'william@example.com',
         group: '家人',
-        personalSign: 'Book worm'
+        personalSign: 'Book worm',
+        createdAt: '10/25 14:42'
     },
     {
         id: 29,
@@ -376,7 +395,8 @@ export const friends = [
         gender: 1,
         email: 'sophie@example.com',
         group: '家人',
-        personalSign: 'Nature lover'
+        personalSign: 'Nature lover',
+        createdAt: '10/25 14:42'
     },
     {
         id: 31,
@@ -401,7 +421,8 @@ export const friends = [
         gender: 1,
         email: 'james@example.com',
         group: '亲戚',
-        personalSign: 'Movie buff'
+        personalSign: 'Movie buff',
+        createdAt: '10/25 14:42'
     },
     {
         id: 33,
@@ -426,7 +447,8 @@ export const friends = [
         gender: 1,
         email: 'emily@example.com',
         group: '亲戚',
-        personalSign: 'Fitness enthusiast'
+        personalSign: 'Fitness enthusiast',
+        createdAt: '10/25 14:42'
     },
     {
         id: 35,
@@ -451,7 +473,8 @@ export const friends = [
         gender: 1,
         email: 'daniel@example.com',
         group: '朋友',
-        personalSign: 'Coffee addict'
+        personalSign: 'Coffee addict',
+        createdAt: '10/25 14:42'
     },
     {
         id: 37,
@@ -476,6 +499,7 @@ export const friends = [
         gender: 1,
         email: 'olivia@example.com',
         group: '朋友',
-        personalSign: 'Fashion lover'
+        personalSign: 'Fashion lover',
+        createdAt: '10/25 14:42'
     }
 ]

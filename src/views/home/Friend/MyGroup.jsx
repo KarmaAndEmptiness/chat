@@ -1,11 +1,14 @@
 import React from 'react'
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Drawer, Grid, IconButton, List, Paper, Popover, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
-import { MoreHorizOutlined as MoreHorizOutlinedIcon, Close as CloseIcon } from '@mui/icons-material';
+import { Avatar, Box, Button,   Divider, Drawer, Grid, IconButton, InputBase, List, Paper, Popover, Stack, TextField } from '@mui/material'
+import { Search as SearchIcon, MoreHorizOutlined as MoreHorizOutlinedIcon, GroupAddOutlined as GroupAddOutlinedIcon } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-
 import FriendInfoDialog from '@/components/FriendInfoDialog';
+
 import { groups } from '~/data/groups.js'
+
 import avatar from '~/assets/img/bg.jpg'
+import TabsAndSearch from '../../../components/TabsAndSearch';
+import AddGroupMember from '../../../components/AddGroupMember';
 
 const tabsLi = [
     {
@@ -20,14 +23,10 @@ const tabsLi = [
 
 ]
 
+
 export default function MyGroup() {
-    const [activeGroup, setActiveGroup] = React.useState(0);
     const [groupInfoDrawerOpen, setGroupInfoDrawerOpen] = React.useState(false);
     const [currentOpenGroup, setCurrentOpenGroup] = React.useState(null);
-
-    const handleChangeGroup = (event, selectedGroup) => {
-        setActiveGroup(selectedGroup)
-    }
     const handleGroupInfoDrawerClose = () => {
         setGroupInfoDrawerOpen(false);
     }
@@ -39,17 +38,7 @@ export default function MyGroup() {
     return (
         <>
             {/* 列表顶部的分类导航栏 */}
-            <Box sx={{ width: '100%' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider', paddingLeft: '1rem' }}>
-                    <Tabs value={activeGroup} onChange={handleChangeGroup} aria-label="tabs">
-                        {
-                            tabsLi.map((tab, idx) => (
-                                <Tab key={tab.name} label={tab.name} />
-                            ))
-                        }
-                    </Tabs>
-                </Box>
-            </Box>
+            <TabsAndSearch tabs={tabsLi} />
 
             {/* 群聊列表 */}
             <GroupsList onGroupItemClick={handleGroupPaperClick} />
@@ -60,8 +49,37 @@ export default function MyGroup() {
     )
 }
 
+// 搜索模块
+const Search = () => {
+    return (
+        <Paper
+            sx={{ display: 'flex', alignItems: 'center', width: '100%', border: '1px solid rgba(0, 0, 0, 0.12)' }}
+            elevation={0}
+        >
+            <InputBase
+                sx={{
+                    ml: 1, flex: 1, display: 'inline-flex', alignItems: 'center',
+                    '& > input': {
+                        padding: '0px',
+                        fontSize: '13px'
+                    }
+                }}
+                placeholder="搜索好友/群聊"
+            />
+            <IconButton type="button" sx={{ p: '5px' }}>
+                <SearchIcon />
+            </IconButton>
+            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+            <IconButton color="primary" sx={{ p: '5px' }} >
+                <GroupAddOutlinedIcon />
+            </IconButton>
+        </Paper>
+    )
+}
+
 //群聊详细信息组件
 const GroupDetailInfo = ({ open, groupInfo, onClose }) => {
+
     return (
         <Drawer
             anchor='right'
@@ -409,7 +427,7 @@ const GroupMemembers = ({ group }) => {
                 {/* 添加成员 */}
                 <Grid item
                 >
-                    <AddMember />
+                    <AddGroupMember />
                 </Grid>
 
                 {/* 查看更多 */}
@@ -463,96 +481,6 @@ const GroupMemembers = ({ group }) => {
         </Box>
 
 
-    )
-}
-
-//添加成员组件
-const AddMember = () => {
-    const [dialogOpen, setDialogOpen] = React.useState(false);
-    const handleAddMember = () => {
-        setDialogOpen(true);
-    }
-    const handleDialogClose = () => {
-        setDialogOpen(false);
-    }
-    return (
-        <Stack
-            direction='column'
-            spacing={0}
-            sx={
-                {
-                    alignItems: 'center',
-                    marginBottom: '3px',
-                    cursor: 'pointer'
-                }
-            }
-            onClick={handleAddMember}
-        >
-            <Box
-                sx={
-                    {
-                        width: '40px',
-                        height: '40px',
-                        border: '1px solid #ccc',
-                        borderRadius: '50%',
-                        fontSize: '1.5rem',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }
-                }
-            >
-                +
-            </Box>
-            <Box
-                sx={
-                    {
-                        fontSize: '12px',
-                        color: 'gray'
-                    }
-                }
-            >添加成员</Box>
-            <Dialog
-                open={dialogOpen}
-                onClose={handleDialogClose}
-            >
-                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                    Modal title
-                </DialogTitle>
-                <IconButton
-                    onClick={handleDialogClose}
-                    sx={(theme) => ({
-                        position: 'absolute',
-                        right: 8,
-                        top: 8,
-                        color: theme.palette.grey[500],
-                    })}
-                >
-                    <CloseIcon />
-                </IconButton>
-                <DialogContent dividers>
-                    <Typography gutterBottom>
-                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                        consectetur ac, vestibulum at eros.
-                    </Typography>
-                    <Typography gutterBottom>
-                        Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                        Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </Typography>
-                    <Typography gutterBottom>
-                        Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-                        magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-                        ullamcorper nulla non metus auctor fringilla.
-                    </Typography>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleDialogClose}>
-                        Save changes
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Stack>
     )
 }
 
