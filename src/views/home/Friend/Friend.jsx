@@ -48,13 +48,13 @@ const navs = [
     }
 ]
 
-const LeftBox = function (props) {
+const LeftBox = function ({ onNavChange }) {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const navigate = useNavigate();
     const handleListItemClick = (event, index, path) => {
         setSelectedIndex(index);
-        navigate(`/home/friend/${path}`, { replace: false });
-        props.onNavChange(navs[index]);
+        navigate(`/friend/${path}`, { replace: false });
+        onNavChange(navs[index]);
     };
     return (
         <List component="nav" >
@@ -64,6 +64,14 @@ const LeftBox = function (props) {
                         selected={selectedIndex === idx}
                         onClick={(event) => handleListItemClick(event, idx, nav.path)}
                         key={nav.name}
+                        sx={
+                            {
+                                '& > div.css-cveggr-MuiListItemIcon-root':
+                                {
+                                    minWidth: '30px'
+                                }
+                            }
+                        }
                     >
                         <ListItemIcon>
                             {selectedIndex === idx ? <nav.activeIcon /> : <nav.icon />}
@@ -124,9 +132,9 @@ export default function Friend() {
 }
 
 const headerStyle = {
-    fontSize: '1.5rem',
-    fontWeight: '400',
-    padding: '1rem 0rem 1rem 1rem'
+    fontSize: '1.2rem',
+    fontWeight: '700',
+    padding: '.6rem'
 }
 const _headerStyle = {
     fontSize: '1rem',
@@ -136,14 +144,14 @@ const containerStyle = {
     display: 'flex',
 }
 const leftContainerStyle = {
-    width: '180px',
+    width: '130px',
     borderRight: '1px solid #ccc',
     flexShrink: 0,
     height: 'calc(100vh - 133px)'
 }
 
 const rightContainerStyle = {
-    width: 'calc(100% - 180px)',
+    width: 'calc(100% - 130px)',
     height: 'calc(100vh - 239px)',
     backGroundColor: 'pink'
 }

@@ -150,7 +150,7 @@ const Home = () => {
 
     const handleListItemClick = (event, index, path) => {
         setSelectedNavIndex(index);
-        navigate(`/home/${path}`, { replace: true })
+        navigate(`/${path}`, { replace: true })
     };
 
     return (

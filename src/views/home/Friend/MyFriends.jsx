@@ -6,16 +6,16 @@ import { styled } from '@mui/material/styles'
 import { friends } from '~/data/friends.js'
 import avatar from '~/assets/img/bg.jpg'
 import FriendInfoDialog from '@/components/FriendInfoDialog';
+import TabsAndSearch from '../../../components/TabsAndSearch';
 
 const tabsLi = [
     {
-        label: '全部'
+        name: '全部'
     }
 ]
 
 
 export default function MyFriends() {
-    const [value, setValue] = React.useState(0);
     const [morePopoverAnchorEl, setMorePopoverAnchorEl] = React.useState(null);
     const [friendInfoDialogOpen, setfriendInfoDialogOpen] = React.useState(false);
     const [selectedFriend, setSelectedFriend] = React.useState(null);
@@ -49,12 +49,6 @@ export default function MyFriends() {
         setSelectedFriend(friend);
         setfriendInfoDialogOpen(true);
     };
-
-    //顶部分组导航栏切换处理函数
-    const handleNavChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
     const handlefriendInfoDialogClose = () => {
         setfriendInfoDialogOpen(false);
     }
@@ -71,17 +65,7 @@ export default function MyFriends() {
     return (
         <>
             {/* 列表顶部的分类导航栏 */}
-            <Box sx={{ width: '100%' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider', paddingLeft: '1rem' }}>
-                    <Tabs value={value} onChange={handleNavChange} aria-label="tabs">
-                        {
-                            tabsLi.map((tab, idx) => (
-                                <Tab key={tab.label} label={tab.label} />
-                            ))
-                        }
-                    </Tabs>
-                </Box>
-            </Box>
+            <TabsAndSearch tabs={tabsLi} />
 
             {/* 好友列表 */}
             <FriendsList
@@ -231,7 +215,8 @@ const FriendsList = ({ onListItemClick, onMoreSelected, morePopoverOpen, morePop
                                 </Tooltip>
 
                                 <IconButton
-                                    onClick={event => onMorePopoverOpen(event, friend)}
+                                    onMouseEnter={event => onMorePopoverOpen(event, friend)}
+                                    onmouseLeave
                                 >
                                     <MoreHorizIcon />
                                 </IconButton>
@@ -249,9 +234,19 @@ const FriendsList = ({ onListItemClick, onMoreSelected, morePopoverOpen, morePop
                                         horizontal: 'right',
                                     }}
                                     elevation={1}
+                                    sx={{
+                                        pointerEvents: 'auto'
+                                    }}
+                                    disableRestoreFocus
                                 >
-                                    <MenuItem elevation={1} onClick={(event) => onMoreSelected(event, 0)}>编辑备注</MenuItem>
-                                    <MenuItem elevation={1} onClick={(event) => onMoreSelected(event, 1)}>删除</MenuItem>
+                                    <Box
+                                        onmouseLeave={
+                                            onMorePopoverClose
+                                        }
+                                    >
+                                        <MenuItem elevation={1} onClick={(event) => onMoreSelected(event, 0)}>编辑备注</MenuItem>
+                                        <MenuItem elevation={1} onClick={(event) => onMoreSelected(event, 1)}>删除</MenuItem>
+                                    </Box>
                                 </Popover>
                             </span>}
                                 sx={
