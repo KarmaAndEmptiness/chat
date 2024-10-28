@@ -5,7 +5,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { CircularProgress, Box, Avatar, Drawer as MuiDrawer, AppBar as MuiAppBar, Toolbar, List, Typography, Divider, IconButton, Badge, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 import { ExitToAppOutlined as ExitToAppOutlinedIcon, ChevronLeft as ChevronLeftIcon, MessageOutlined as MessageOutlinedIcon, MessageRounded as MessageRoundedIcon, AccountBoxOutlined as AccountBoxOutlinedIcon, AccountBoxRounded as AccountBoxRoundedIcon, NoteAltOutlined as NoteAltOutlinedIcon, NoteAltRounded as NoteAltRoundedIcon, SettingsOutlined as SettingsOutlinedIcon, Settings as SettingsIcon } from '@mui/icons-material';
-import { Route, Routes, useNavigate, Redirect, Outlet } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 const Message = React.lazy(() => import('./Message'))
 const Friend = React.lazy(() => import('./Friend/Friend'))

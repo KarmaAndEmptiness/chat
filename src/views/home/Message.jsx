@@ -3,15 +3,28 @@ import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
 
 import { Box, Badge, Paper, InputBase, Divider, IconButton, Typography, List, ListItemButton, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
-import { GroupAddOutlined as GroupAddOutlinedIcon, Search as SearchIcon, InsertDriveFileSharp as InsertDriveFileSharpIcon } from '@mui/icons-material';
+import { InsertDriveFileSharp as InsertDriveFileSharpIcon } from '@mui/icons-material';
 
+import Search from '@/components/Search'
+import AddGroupMemberDialog from '@/components/AddGroupMemberDialog'
 import { chats } from '~/data/message.js'
 import avatar from '~/assets/img/bg.jpg'
+
+
 
 const Message = () => {
     const [leftBoxWidth, setLeftBoxWidth] = useState(350)
     const [startX, setStartX] = useState(0)
     const [mouseDown, setMouseDown] = useState(false)
+    const [addGroupMemberDialogOpen, setAddGroupMemberDialogOpen] = useState(false);
+
+    const handleSearchAddClick = () => {
+        setAddGroupMemberDialogOpen(true);
+    }
+
+    const handleMemberDialogClose = (event) => {
+        setAddGroupMemberDialogOpen(false);
+    }
     const handleMouseMove = (e) => {
         if (mouseDown) {
             if (e.target.style.userSelect !== 'none') {
@@ -73,7 +86,8 @@ const Message = () => {
                     }
                 }>
                     {/* 搜索 */}
-                    <Search />
+                    <Search onAddIconClick={handleSearchAddClick} />
+                    <AddGroupMemberDialog open={addGroupMemberDialogOpen} onClose={handleMemberDialogClose} />
 
                     {/* 会话记录 */}
                     <SessionList />
@@ -118,32 +132,32 @@ const Message = () => {
 export default Message;
 
 // 搜索模块
-const Search = () => {
-    return (
-        <Paper
-            sx={{ display: 'flex', alignItems: 'center', width: '100%', border: '1px solid rgba(0, 0, 0, 0.12)' }}
-            elevation={0}
-        >
-            <InputBase
-                sx={{
-                    ml: 1, flex: 1, display: 'inline-flex', alignItems: 'center',
-                    '& > input': {
-                        padding: '0px',
-                        fontSize: '13px'
-                    }
-                }}
-                placeholder="搜索好友/群聊"
-            />
-            <IconButton type="button" sx={{ p: '5px' }}>
-                <SearchIcon />
-            </IconButton>
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton color="primary" sx={{ p: '5px' }} >
-                <GroupAddOutlinedIcon />
-            </IconButton>
-        </Paper>
-    )
-}
+// const Search = () => {
+//     return (
+//         <Paper
+//             sx={{ display: 'flex', alignItems: 'center', width: '100%', border: '1px solid rgba(0, 0, 0, 0.12)' }}
+//             elevation={0}
+//         >
+//             <InputBase
+//                 sx={{
+//                     ml: 1, flex: 1, display: 'inline-flex', alignItems: 'center',
+//                     '& > input': {
+//                         padding: '0px',
+//                         fontSize: '13px'
+//                     }
+//                 }}
+//                 placeholder="搜索好友/群聊"
+//             />
+//             <IconButton type="button" sx={{ p: '5px' }}>
+//                 <SearchIcon />
+//             </IconButton>
+//             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+//             <IconButton color="primary" sx={{ p: '5px' }} >
+//                 <GroupAddOutlinedIcon />
+//             </IconButton>
+//         </Paper>
+//     )
+// }
 
 // 会话记录
 const SessionList = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Avatar, Box, Button,   Divider, Drawer, Grid, IconButton, InputBase, List, Paper, Popover, Stack, TextField } from '@mui/material'
-import { Search as SearchIcon, MoreHorizOutlined as MoreHorizOutlinedIcon, GroupAddOutlined as GroupAddOutlinedIcon } from '@mui/icons-material';
+import { Avatar, Box, Button, Divider, Drawer, Grid, List, Paper, Popover, Stack, TextField } from '@mui/material'
+import { MoreHorizOutlined as MoreHorizOutlinedIcon } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import FriendInfoDialog from '@/components/FriendInfoDialog';
 
@@ -8,7 +8,7 @@ import { groups } from '~/data/groups.js'
 
 import avatar from '~/assets/img/bg.jpg'
 import TabsAndSearch from '../../../components/TabsAndSearch';
-import AddGroupMember from '../../../components/AddGroupMember';
+import AddGroupMemberDialog from '../../../components/AddGroupMemberDialog';
 
 const tabsLi = [
     {
@@ -27,6 +27,7 @@ const tabsLi = [
 export default function MyGroup() {
     const [groupInfoDrawerOpen, setGroupInfoDrawerOpen] = React.useState(false);
     const [currentOpenGroup, setCurrentOpenGroup] = React.useState(null);
+    const [membersDialogOpen, setMembersDialogOpen] = React.useState(false);
     const handleGroupInfoDrawerClose = () => {
         setGroupInfoDrawerOpen(false);
     }
@@ -35,48 +36,27 @@ export default function MyGroup() {
         setCurrentOpenGroup(groups[index])
         setGroupInfoDrawerOpen(true);
     }
+    const handleMemberDialogClose = (event) => {
+        setMembersDialogOpen(false);
+    }
+    const handleMemberDialogOpen = (event) => {
+        setMembersDialogOpen(true);
+    }
     return (
         <>
             {/* 列表顶部的分类导航栏 */}
-            <TabsAndSearch tabs={tabsLi} />
+            <TabsAndSearch tabs={tabsLi} onAddIconClick={handleMemberDialogOpen} />
 
             {/* 群聊列表 */}
             <GroupsList onGroupItemClick={handleGroupPaperClick} />
 
             {/* 群聊详细信息 */}
             <GroupDetailInfo open={groupInfoDrawerOpen} groupInfo={currentOpenGroup} onClose={handleGroupInfoDrawerClose} />
+
+            <AddGroupMemberDialog open={membersDialogOpen} onClose={handleMemberDialogClose} />
         </>
     )
 }
-
-// 搜索模块
-const Search = () => {
-    return (
-        <Paper
-            sx={{ display: 'flex', alignItems: 'center', width: '100%', border: '1px solid rgba(0, 0, 0, 0.12)' }}
-            elevation={0}
-        >
-            <InputBase
-                sx={{
-                    ml: 1, flex: 1, display: 'inline-flex', alignItems: 'center',
-                    '& > input': {
-                        padding: '0px',
-                        fontSize: '13px'
-                    }
-                }}
-                placeholder="搜索好友/群聊"
-            />
-            <IconButton type="button" sx={{ p: '5px' }}>
-                <SearchIcon />
-            </IconButton>
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton color="primary" sx={{ p: '5px' }} >
-                <GroupAddOutlinedIcon />
-            </IconButton>
-        </Paper>
-    )
-}
-
 //群聊详细信息组件
 const GroupDetailInfo = ({ open, groupInfo, onClose }) => {
 
@@ -484,6 +464,57 @@ const GroupMemembers = ({ group }) => {
     )
 }
 
+function AddGroupMember() {
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const handleAddMember = (event) => {
+        setDialogOpen(true);
+    }
+    const handleDialogClose = (event) => {
+        // 这里要阻止事件冒泡，不然会导致组件关闭后直接重新打开
+        event.stopPropagation();
+        setDialogOpen(false);
+    }
+    return (
+        <Stack
+            direction='column'
+            spacing={0}
+            sx={
+                {
+                    alignItems: 'center',
+                    marginBottom: '3px',
+                    cursor: 'pointer'
+                }
+            }
+            onClick={handleAddMember}
+        >
+            <Box
+                sx={
+                    {
+                        width: '40px',
+                        height: '40px',
+                        border: '1px solid #ccc',
+                        borderRadius: '50%',
+                        fontSize: '1.5rem',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }
+                }
+            >
+                +
+            </Box>
+            <Box
+                sx={
+                    {
+                        fontSize: '12px',
+                        color: 'gray'
+                    }
+                }
+            >添加成员</Box>
+            <AddGroupMemberDialog open={dialogOpen} onClose={handleDialogClose} />
+        </Stack>
+    )
+}
 const GroupPaper = styled(Paper)(({ theme }) => ({
     width: 260,
     height: 100,
