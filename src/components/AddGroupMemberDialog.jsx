@@ -35,7 +35,7 @@ function AddGroupMemberDialog({ open, onClose }) {
             onClose={onClose}
             sx={
                 {
-                    'div.css-1t1j96h-MuiPaper-root-MuiDialog-paper': {
+                    'div.css-1t1j96h-MuiPaper-root-MuiDialog-paper,div.css-1qxadfk-MuiPaper-root-MuiDialog-paper': {
                         maxWidth: 'initial',
                         width: '650px',
                         height: '460px',

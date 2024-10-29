@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
-import { List, ListItemButton, ListItemIcon, ListItemText, Divider, CircularProgress } from '@mui/material'
+import React from 'react'
+import { Route } from 'react-router-dom'
 import { NotificationsNoneOutlined as NotificationsNoneOutlinedIcon, Notifications as NotificationsIcon } from '@mui/icons-material';
+import SubNav from '../../../components/SubNav';
 
 const UserCenter = React.lazy(() => import('./UserCenter'))
 const SecuritySetting = React.lazy(() => import('./SecuritySetting'))
@@ -41,93 +41,17 @@ const navs = [
         activeIcon: NotificationsIcon
     }
 ]
-
-const LeftBox = function () {
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
-    const navigate = useNavigate();
-    const handleListItemClick = (event, index, path) => {
-        setSelectedIndex(index);
-        navigate(`/setting/${path}`, { replace: false });
-    };
-    return (
-        <List component="nav" >
-            {
-                navs.map((nav, idx) => (
-                    <ListItemButton
-                        selected={selectedIndex === idx}
-                        onClick={(event) => handleListItemClick(event, idx, nav.path)}
-                        key={nav.name}
-                    >
-                        <ListItemIcon>
-                            {selectedIndex === idx ? <nav.activeIcon /> : <nav.icon />}
-                        </ListItemIcon>
-                        <ListItemText primary={nav.name} />
-                    </ListItemButton>
-                ))
-            }
-        </List>
-    )
-}
-
 export default function Setting() {
 
     return (
         <>
-            <div style={headerStyle}>我的设置</div>
-            <Divider />
-
-            <div style={containerStyle}>
-                <div style={leftContainerStyle}>
-                    {/* 左部导航栏 */}
-                    <LeftBox />
-                </div>
-
-                <div style={rightContainerStyle}>
-                    <Suspense
-                        fallback={
-                            <div style={
-                                {
-                                    height: '100%',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }
-                            }>
-                                <CircularProgress />
-                            </div>
-                        }
-                    >
-                        <Routes>
-                            <Route index path='user-center' element={<UserCenter />} />
-                            <Route path='security-setting' element={<SecuritySetting />} />
-                            <Route path='personal-setting' element={<PersonalSetting />} />
-                            <Route path='bind-setting' element={<BindSetting />} />
-                            <Route path='note-setting' element={<NoteSetting />} />
-                        </Routes>
-                    </Suspense>
-                </div>
-            </div>
-
+            <SubNav navs={navs} title='我的设置' baseRoute='setting'>
+                <Route index path='user-center' element={<UserCenter />} />
+                <Route path='security-setting' element={<SecuritySetting />} />
+                <Route path='personal-setting' element={<PersonalSetting />} />
+                <Route path='bind-setting' element={<BindSetting />} />
+                <Route path='note-setting' element={<NoteSetting />} />
+            </SubNav>
         </>
     )
-}
-
-const headerStyle = {
-    fontSize: '1.5rem',
-    fontWeight: '400',
-    padding: '1rem 0rem 1rem 1rem'
-}
-
-const containerStyle = {
-    display: 'flex',
-}
-const leftContainerStyle = {
-    width: '180px',
-    borderRight: '1px solid #ccc',
-    flexShrink: 0,
-    height: 'calc(100vh - 133px)'
-}
-
-const rightContainerStyle = {
-    width: 'calc(100% - 180px)',
 }
