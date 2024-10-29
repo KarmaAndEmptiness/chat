@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { styled } from '@mui/material/styles'
 
-import { Box, Badge, Paper, InputBase, Divider, IconButton, Typography, List, ListItemButton, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
+import { Box, Badge, Divider, Typography, List, ListItemButton, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
 import { InsertDriveFileSharp as InsertDriveFileSharpIcon } from '@mui/icons-material';
 
 import Search from '@/components/Search'
@@ -130,34 +130,6 @@ const Message = () => {
     )
 }
 export default Message;
-
-// 搜索模块
-// const Search = () => {
-//     return (
-//         <Paper
-//             sx={{ display: 'flex', alignItems: 'center', width: '100%', border: '1px solid rgba(0, 0, 0, 0.12)' }}
-//             elevation={0}
-//         >
-//             <InputBase
-//                 sx={{
-//                     ml: 1, flex: 1, display: 'inline-flex', alignItems: 'center',
-//                     '& > input': {
-//                         padding: '0px',
-//                         fontSize: '13px'
-//                     }
-//                 }}
-//                 placeholder="搜索好友/群聊"
-//             />
-//             <IconButton type="button" sx={{ p: '5px' }}>
-//                 <SearchIcon />
-//             </IconButton>
-//             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-//             <IconButton color="primary" sx={{ p: '5px' }} >
-//                 <GroupAddOutlinedIcon />
-//             </IconButton>
-//         </Paper>
-//     )
-// }
 
 // 会话记录
 const SessionList = () => {
@@ -534,13 +506,20 @@ const MessagesPane = () => {
                                                         {/* file bubble */}
                                                         <Box
                                                             sx={
-                                                                {
-                                                                    borderRadius: '0 10px 10px',
-                                                                    backgroundColor: '#fff',
-                                                                    width: 'fit-content',
-                                                                    padding: '8px',
-                                                                    maxWidth: '435px'
-                                                                }
+                                                                theme =>
+                                                                (
+                                                                    {
+                                                                        borderRadius: '0 10px 10px',
+
+                                                                        backgroundColor: '#fff',
+                                                                        ...theme.applyStyles('dark', {
+                                                                            backgroundColor: 'yellowgreen'
+                                                                        }),
+                                                                        width: 'fit-content',
+                                                                        padding: '8px',
+                                                                        maxWidth: '435px'
+                                                                    }
+                                                                )
                                                             }
                                                         >
                                                             <Box
@@ -589,14 +568,19 @@ const MessagesPane = () => {
                                                         <>
                                                             {/* chat bubble */}
                                                             <Box
-                                                                sx={
+                                                                sx={theme =>
+                                                                (
                                                                     {
                                                                         borderRadius: '0 10px 10px',
                                                                         backgroundColor: '#fff',
+                                                                        ...theme.applyStyles('dark', {
+                                                                            backgroundColor: 'yellowgreen'
+                                                                        }),
                                                                         width: 'fit-content',
                                                                         padding: '8px',
                                                                         maxWidth: '435px'
                                                                     }
+                                                                )
                                                                 }
                                                             >
                                                                 {message.content}
@@ -692,4 +676,3 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
         },
     },
 }));
-

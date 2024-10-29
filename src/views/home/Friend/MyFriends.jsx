@@ -216,7 +216,6 @@ const FriendsList = ({ onListItemClick, onMoreSelected, morePopoverOpen, morePop
 
                                 <IconButton
                                     onMouseEnter={event => onMorePopoverOpen(event, friend)}
-                                    onmouseLeave
                                 >
                                     <MoreHorizIcon />
                                 </IconButton>
@@ -240,7 +239,7 @@ const FriendsList = ({ onListItemClick, onMoreSelected, morePopoverOpen, morePop
                                     disableRestoreFocus
                                 >
                                     <Box
-                                        onmouseLeave={
+                                        onMouseLeave={
                                             onMorePopoverClose
                                         }
                                     >

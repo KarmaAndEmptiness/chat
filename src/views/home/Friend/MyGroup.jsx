@@ -1,6 +1,6 @@
 import React from 'react'
-import { Avatar, Box, Button, Divider, Drawer, Grid, List, Paper, Popover, Stack, TextField } from '@mui/material'
-import { MoreHorizOutlined as MoreHorizOutlinedIcon } from '@mui/icons-material';
+import { Avatar, Box, Button, DialogContent, DialogTitle, Divider, Drawer, Grid, IconButton, List, Paper, Popover, Stack, TextField } from '@mui/material'
+import { MoreHorizOutlined as MoreHorizOutlinedIcon, Close as CloseIcon } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import FriendInfoDialog from '@/components/FriendInfoDialog';
 
@@ -68,14 +68,11 @@ const GroupDetailInfo = ({ open, groupInfo, onClose }) => {
             sx={
                 {
                     zIndex: 1202,
-                    alignItems: 'center',
-                    '& > .css-1160xiw-MuiPaper-root-MuiDrawer-paper': {
-                        maxWidth: '400px',
-                    }
+                    alignItems: 'center'
                 }
             }
         >
-            <Box
+            {/* <Box
                 sx={
                     {
                         width: 400,
@@ -92,58 +89,84 @@ const GroupDetailInfo = ({ open, groupInfo, onClose }) => {
                 >
                     群信息
                 </Box>
-            </Box>
-            <Divider />
-
-            <Stack
+            </Box> */}
+            <DialogTitle
                 sx={
                     {
-                        padding: '10px 10px'
+                        fontSize: '1rem'
                     }
                 }
-                spacing={2}
+            >群信息</DialogTitle>
+            <IconButton
+                onClick={onClose}
+                sx={(theme) => ({
+                    position: 'absolute',
+                    right: 8,
+                    top: 8,
+                    color: theme.palette.grey[500],
+                })}
             >
+                <CloseIcon />
 
-                {/* 群名称 */}
-                <Box>
-                    <Box>群名称</Box>
-                    <span style={
+            </IconButton>
+
+            <DialogContent dividers
+                sx={
+                    {
+                        width: '400px',
+                        padding: '0'
+                    }
+                }
+            >
+                <Stack
+                    sx={
                         {
-                            color: 'gray',
-                            fontSize: 14
+                            padding: '10px 15px'
                         }
-                    }>{groupInfo && groupInfo.groupName}</span>
-                </Box>
+                    }
+                    spacing={2}
+                >
 
-                {/* 群简介 */}
-                <Box>
-                    <Box>群简介</Box>
-                    <span style={
-                        {
-                            color: 'gray',
-                            fontSize: 14
-                        }
-                    }>{groupInfo && groupInfo.groupDesc}</span>
-                </Box>
+                    {/* 群名称 */}
+                    <Box>
+                        <Box>群名称</Box>
+                        <span style={
+                            {
+                                color: 'gray',
+                                fontSize: 14
+                            }
+                        }>{groupInfo && groupInfo.groupName}</span>
+                    </Box>
 
-                {/* 群名片 */}
-                <GroupCard groupInfo={groupInfo} />
+                    {/* 群简介 */}
+                    <Box>
+                        <Box>群简介</Box>
+                        <span style={
+                            {
+                                color: 'gray',
+                                fontSize: 14
+                            }
+                        }>{groupInfo && groupInfo.groupDesc}</span>
+                    </Box>
 
-                {/* 群成员 */}
-                <GroupMemembers group={groupInfo} />
+                    {/* 群名片 */}
+                    <GroupCard groupInfo={groupInfo} />
 
-                {/* 群公告 */}
-                <Box>
-                    <Box>群公告</Box>
-                    <span style={
-                        {
-                            color: 'gray',
-                            fontSize: 14
-                        }
-                    }>{groupInfo && groupInfo.announcement}</span>
-                </Box>
-            </Stack>
+                    {/* 群成员 */}
+                    <GroupMemembers group={groupInfo} />
 
+                    {/* 群公告 */}
+                    <Box>
+                        <Box>群公告</Box>
+                        <span style={
+                            {
+                                color: 'gray',
+                                fontSize: 14
+                            }
+                        }>{groupInfo && groupInfo.announcement}</span>
+                    </Box>
+                </Stack>
+            </DialogContent>
             {/* 群聊管理 */}
             <Button variant="contained"
                 sx={
@@ -377,6 +400,15 @@ const GroupMemembers = ({ group }) => {
                         <Grid item
                             onClick={event => handleMemberInfoOpen(idx)}
                             key={member.nickname}
+                            sx={
+                                {
+                                    width: '48px',
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                    textOverflow: 'ellipsis',
+                                    padding: '0'
+                                }
+                            }
                         >
                             <Stack
                                 direction='column'
@@ -394,11 +426,11 @@ const GroupMemembers = ({ group }) => {
                                 <Box
                                     sx={
                                         {
-                                            fontSize: '12px',
+                                            fontSize: '9px',
                                             color: 'gray'
                                         }
                                     }
-                                >{member.nickname.length > 3 ? member.nickname.slice(0, 3) + ' ...' : member.nickname}</Box>
+                                >{member.nickname}</Box>
                             </Stack>
                         </Grid>
                     ))
@@ -406,53 +438,26 @@ const GroupMemembers = ({ group }) => {
 
                 {/* 添加成员 */}
                 <Grid item
+                    sx={
+                        {
+                            width: '48px',
+                            padding: '0'
+                        }
+                    }
                 >
                     <AddGroupMember />
                 </Grid>
 
                 {/* 查看更多 */}
-                <Grid item>
-                    <Stack
-                        direction='column'
-                        spacing={0}
-                        sx={
-                            {
-                                alignItems: 'center',
-                                marginBottom: '3px',
-                                cursor: 'pointer'
-                            }
+                <Grid item
+                    sx={
+                        {
+                            width: '48px',
+                            padding: '0'
                         }
-                    >
-                        <Box
-                            sx={
-                                {
-                                    width: '40px',
-                                    height: '40px',
-                                    border: '1px solid #ccc',
-                                    borderRadius: '50%',
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }
-                            }
-                        >
-                            <MoreHorizOutlinedIcon
-                                sx={
-                                    {
-                                        fontSize: '1.5rem',
-                                    }
-                                }
-                            />
-                        </Box>
-                        <Box
-                            sx={
-                                {
-                                    fontSize: '12px',
-                                    color: 'gray'
-                                }
-                            }
-                        >查看更多</Box>
-                    </Stack>
+                    }
+                >
+                    <ViewMore members={group && (group.members ? group.members : [])} />
                 </Grid>
             </Grid>
 
@@ -506,7 +511,7 @@ function AddGroupMember() {
             <Box
                 sx={
                     {
-                        fontSize: '12px',
+                        fontSize: '9px',
                         color: 'gray'
                     }
                 }
@@ -514,6 +519,132 @@ function AddGroupMember() {
             <AddGroupMemberDialog open={dialogOpen} onClose={handleDialogClose} />
         </Stack>
     )
+}
+
+//查看更多
+const ViewMore = ({ members }) => {
+    const [viewMoreDrawerOpen, setViewMoreDrawerOpen] = React.useState(false);
+    const handleViewMoreClick = () => {
+        setViewMoreDrawerOpen(true);
+    }
+    const handleViewMoreDrawerClose = () => {
+        setViewMoreDrawerOpen(false);
+    }
+    return (
+        <>
+            <Stack
+                direction='column'
+                spacing={0}
+                sx={
+                    {
+                        alignItems: 'center',
+                        marginBottom: '3px',
+                        cursor: 'pointer'
+                    }
+                }
+            >
+                <Box
+                    sx={
+                        {
+                            width: '40px',
+                            height: '40px',
+                            border: '1px solid #ccc',
+                            borderRadius: '50%',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }
+                    }
+                    onClick={handleViewMoreClick}
+                >
+                    <MoreHorizOutlinedIcon
+                        sx={
+                            {
+                                fontSize: '1.5rem',
+                            }
+                        }
+                    />
+                </Box>
+                <Box
+                    sx={
+                        {
+                            fontSize: '9px',
+                            color: 'gray'
+                        }
+                    }
+                >查看更多</Box>
+            </Stack>
+
+            {/* 查看更多drawer */}
+            <ViewMoreDrawer open={viewMoreDrawerOpen} onClose={handleViewMoreDrawerClose} members={members} />
+        </>
+    )
+}
+
+const ViewMoreDrawer = ({ open, onClose, members }) => {
+    const [friendInfoDialogOpen, setFriendInfoDialogOpen] = React.useState(false);
+    const [selectedMember, setSelectedMember] = React.useState(null);
+    const handleMemberClick = (e, member) => {
+        setSelectedMember(member);
+        setFriendInfoDialogOpen(true);
+    }
+    const handleFriendInfoDialogClose = () => {
+        setFriendInfoDialogOpen(false);
+    }
+    return (
+        <>
+            <Drawer
+                anchor='right'
+                open={open}
+                onClose={onClose}
+                sx={
+                    {
+                        zIndex: '1202',
+                    }
+                }
+            >
+                <DialogTitle
+                    sx={
+                        {
+                            fontSize: '1rem'
+                        }
+                    }
+                >群聊成员</DialogTitle>
+                <IconButton
+                    onClick={onClose}
+                    sx={(theme) => ({
+                        position: 'absolute',
+                        right: 8,
+                        top: 8,
+                        color: theme.palette.grey[500],
+                    })}
+                >
+                    <CloseIcon />
+
+                </IconButton>
+                <DialogContent dividers
+                    sx={
+                        {
+                            width: '320px',
+                        }
+                    }
+                >
+                    {
+                        members.map((member, idx) => (
+                            <React.Fragment key={idx}>
+                                <Box onClick={e => handleMemberClick(e, member)}>
+                                    {member.nickname}
+                                </Box>
+                            </React.Fragment>
+                        ))
+                    }
+                </DialogContent>
+            </Drawer>
+
+            <FriendInfoDialog open={friendInfoDialogOpen} onClose={handleFriendInfoDialogClose} infoData={selectedMember} />
+        </>
+    )
+
 }
 const GroupPaper = styled(Paper)(({ theme }) => ({
     width: 260,

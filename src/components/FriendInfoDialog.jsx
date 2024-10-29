@@ -32,11 +32,18 @@ function FriendInfoDialog({ open, onClose, infoData }) {
                     } />
                 </IconButton>
                 <DialogContent sx={
-                    {
-                        width: 360, height: 460,
-                        padding: 0,
-                        background: 'skyblue'
-                    }
+                    theme =>
+                    (
+                        {
+                            width: 360, height: 460,
+                            padding: 0,
+                            background: 'skyblue',
+                            ...theme.applyStyles('dark', {
+                                background: 'linear-gradient(rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.16))'
+                            })
+
+                        }
+                    )
                 }>
                     <Box sx={
                         {
@@ -61,11 +68,18 @@ function FriendInfoDialog({ open, onClose, infoData }) {
                         }>{infoData && infoData.nickname}</Box>
                     </Box>
                     <Box sx={
-                        {
-                            background: '#fff',
-                            padding: '5px 10px',
-                            height: 'calc(100% - 160px)'
-                        }
+                        theme =>
+                        (
+                            {
+                                background: '#fff',
+                                ...theme.applyStyles('dark', {
+                                    background: '#121212',
+                                }),
+
+                                padding: '5px 10px',
+                                height: 'calc(100% - 160px)'
+                            }
+                        )
                     }>
                         <Box>个性签名：hhhhh</Box>
                         <Box>手机：12345645</Box>
