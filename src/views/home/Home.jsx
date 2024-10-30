@@ -155,7 +155,12 @@ const Home = () => {
 
     return (
         <>
-            <Box sx={{ display: 'flex' }}>
+            <Box
+                onClick={e => {
+                    //这里要阻止冒泡，因为这里会导致input失焦之后snackbar立刻消失
+                    e.stopPropagation();
+                }}
+                sx={{ display: 'flex' }}>
 
                 {/* 顶部导航栏 */}
                 <AppBar position="fixed" open={open}>
