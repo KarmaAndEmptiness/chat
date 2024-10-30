@@ -6,7 +6,7 @@ export default function PersonalSetting() {
     const [selectedDialog, setSelectedDialog] = React.useState(-1);
     // const [mode, toggleTheme] = useContext(ThemeContext) || {};
     // const [mode, toggleTheme] = React.useState('light');
-    const  {mode, toggleTheme} = useContext(ThemeContext);//context要使用这种解构方式
+    const { mode, toggleTheme } = useContext(ThemeContext);//context要使用这种解构方式
 
     const [formData, setFormData] = React.useState({
         account: '',
@@ -137,138 +137,12 @@ export default function PersonalSetting() {
             </Stack>
             <Divider />
 
-            <SettingDialog title='修改密码' open={selectedDialog == 0} onClose={handleDialogClose}>
-                <Stack
-                    direction='column'
-                    spacing={1}>
-                    <TextField
-                        label="登录密码"
-                        name="account"
-                        variant="outlined"
-                        fullWidth
-                        value={formData.account}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        label="设置新密码"
-                        name="email"
-                        variant="outlined"
-                        fullWidth
-                        value={formData.account}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        label="确认新密码"
-                        name="nickname"
-                        variant="outlined"
-                        fullWidth
-                        value={formData.account}
-                        onChange={handleInputChange}
-                    />
-
-                </Stack>
+            <SettingDialog title='我的名片' open={selectedDialog == 1} onClose={handleDialogClose}>
+                我的名片
             </SettingDialog>
 
-            <SettingDialog title='换绑手机' open={selectedDialog == 1} onClose={handleDialogClose}>
-                <Stack
-                    direction='column'
-                    spacing={1}
-                >
-                    <TextField
-                        label="登录密码"
-                        name="account"
-                        variant="outlined"
-                        fullWidth
-                        value={formData.account}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        label="设置新手机号"
-                        name="email"
-                        variant="outlined"
-                        fullWidth
-                        value={formData.account}
-                        onChange={handleInputChange}
-                    />
-                    <Stack
-                        direction='row'
-                        spacing={1}
-                    >
-                        <TextField
-                            label="短信验证码"
-                            name="nickname"
-                            variant="outlined"
-                            value={formData.account}
-                            onChange={handleInputChange}
-                            sx={
-                                {
-                                    width: '80%'
-                                }
-                            }
-                        />
-                        <Button
-                            sx={
-                                {
-                                    width: '20%',
-                                    fontSize: '10px',
-                                    padding: '5px'
-                                }
-                            }
-                            variant='outlined'
-                        >获取验证码</Button>
-                    </Stack>
-                </Stack>
-            </SettingDialog>
-
-            <SettingDialog title='绑定邮箱' open={selectedDialog == 2} onClose={handleDialogClose}>
-                <Stack
-                    direction='column'
-                    spacing={1}
-                >
-                    <TextField
-                        label="登录密码"
-                        name="account"
-                        variant="outlined"
-                        fullWidth
-                        value={formData.account}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        label="新邮箱"
-                        name="email"
-                        variant="outlined"
-                        fullWidth
-                        value={formData.account}
-                        onChange={handleInputChange}
-                    />
-                    <Stack
-                        direction='row'
-                        spacing={1}
-                    >
-                        <TextField
-                            label="短信验证码"
-                            name="nickname"
-                            variant="outlined"
-                            value={formData.account}
-                            onChange={handleInputChange}
-                            sx={
-                                {
-                                    width: '80%'
-                                }
-                            }
-                        />
-                        <Button
-                            sx={
-                                {
-                                    width: '20%',
-                                    fontSize: '10px',
-                                    padding: '5px'
-                                }
-                            }
-                            variant='outlined'
-                        >获取验证码</Button>
-                    </Stack>
-                </Stack>
+            <SettingDialog title='聊天背景图' open={selectedDialog == 2} onClose={handleDialogClose}>
+                聊天背景图
             </SettingDialog>
         </>
     )
