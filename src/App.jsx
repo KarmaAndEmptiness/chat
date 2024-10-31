@@ -7,7 +7,8 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-
+import '../scss/base.scss'
+import '../scss/draft-editor.scss'
 import Login from './views/login/Login'
 import Register from './views/register/Register'
 import Home from './views/home/Home'
