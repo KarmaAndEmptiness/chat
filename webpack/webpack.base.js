@@ -38,8 +38,8 @@ module.exports = {
                     {
                         loader: 'css-loader',
                         options: {
-                            modules: true,
-                            importLoaders: 1
+                            // modules: true,
+                            // importLoaders: 1
                         }
                     },// 处理过的 css 可以使用css-loader 来解析成 js 
                     {
