@@ -1,8 +1,8 @@
 import React from 'react'
-import { Alert, Box, Button, Divider, IconButton, InputBase, MenuItem, OutlinedInput, Snackbar, Stack } from '@mui/material'
-import { AddRounded as AddRoundedIcon, Close as CloseIcon, ManageSearchOutlined as ManageSearchOutlinedIcon } from '@mui/icons-material'
+import { Alert, Box, Button, Divider, IconButton, InputBase, MenuItem, OutlinedInput, Snackbar, Stack, Tooltip } from '@mui/material'
+import { PanoramaOutlined as PanoramaOutlinedIcon, TableViewOutlined as TableViewOutlinedIcon, FormatListBulletedOutlined as FormatListBulletedOutlinedIcon, FormatListNumberedOutlined as FormatListNumberedOutlinedIcon, ViewHeadlineOutlined as ViewHeadlineOutlinedIcon, FormatUnderlinedOutlined as FormatUnderlinedOutlinedIcon, StrikethroughSOutlined as StrikethroughSOutlinedIcon, FormatSizeOutlined as FormatSizeOutlinedIcon, FormatColorTextOutlined as FormatColorTextOutlinedIcon, FormatQuoteOutlined as FormatQuoteOutlinedIcon, FormatItalicOutlined as FormatItalicOutlinedIcon, UndoOutlined as UndoOutlinedIcon, RedoOutlined as RedoOutlinedIcon, FormatBoldOutlined as FormatBoldOutlinedIcon, FormatAlignCenterOutlined as FormatAlignCenterOutlinedIcon, FormatAlignLeftOutlined as FormatAlignLeftOutlinedIcon, FormatAlignRightOutlined as FormatAlignRightOutlinedIcon, AddRounded as AddRoundedIcon, Close as CloseIcon, ManageSearchOutlined as ManageSearchOutlinedIcon } from '@mui/icons-material'
 import 'draft-js/dist/Draft.css'
-import { Editor, EditorState } from 'draft-js'
+import { Editor, EditorState, RichUtils, Modifier, AtomicBlockUtils } from 'draft-js'
 const menus = [
     {
         name: "近期编辑",
@@ -214,6 +214,12 @@ const RightBox = () => {
         <>
             <Stack
                 direction='row'
+                sx={
+                    {
+                        width: 'calc(100vw - 311px)',
+                        maxWidth: 'calc(100vw - 311px)'
+                    }
+                }
             >
                 <Stack
                     direction='column'
@@ -269,11 +275,12 @@ const RightBox = () => {
                 <Box
                     sx={
                         {
-                            height: '100%'
+                            height: '100%',
+                            flex: 'auto'
                         }
                     }
                 >
-                    <MyEditor />
+                    <RichText />
                 </Box>
 
             </Stack>
@@ -281,40 +288,224 @@ const RightBox = () => {
     )
 }
 
+const toolbarGroups = [
+    [
+        {
+            icon: <UndoOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+                // 撤消功能
+                const newState = EditorState.undo(editorState);
+                setEditorState(newState);
+            },
+        },
+        {
+            icon: <RedoOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+                const newState = EditorState.undo(editorState);
+                setEditorState(newState);
+            },
+        },
+    ],
+    [
+        {
+            icon: < FormatBoldOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+                const newState = RichUtils.toggleInlineStyle(editorState, 'BOLD');
+                setEditorState(newState);
+            },
+
+        },
+        {
+            icon: <FormatUnderlinedOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+                const newState = RichUtils.toggleInlineStyle(editorState, 'UNDERLINE');
+                setEditorState(newState);
+            },
+
+        },
+        ,
+        {
+            icon: <FormatItalicOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+                const newState = RichUtils.toggleInlineStyle(editorState, 'ITALIC');
+                setEditorState(newState);
+            },
+        },
+        ,
+        {
+            icon: < ViewHeadlineOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+                const newState = RichUtils.toggleBlockType(editorState, 'header-one');
+                setEditorState(newState);
+            },
+
+        },
+        ,
+        {
+            icon: <StrikethroughSOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+                const newState = RichUtils.toggleInlineStyle(editorState, 'STRIKETHROUGH');
+                setEditorState(newState);
+            },
+
+        },
+        ,
+        {
+            icon: <FormatListNumberedOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+                const newState = RichUtils.toggleBlockType(editorState, 'ordered-list-item');
+                setEditorState(newState);
+            },
+
+        },
+        ,
+        {
+            icon: <FormatListBulletedOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+                const newState = RichUtils.toggleBlockType(editorState, 'unordered-list-item');
+                setEditorState(newState);
+            },
+
+        },
+    ],
+    [
+        {
+            icon: <PanoramaOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+                // const fileInput = document.createElement('input');
+                // fileInput.type = 'file';
+                // fileInput.accept = 'image/*';
+                // fileInput.onchange = async (event) => {
+                //     const file = event.target.files[0];
+                //     const reader = new FileReader();
+                //     reader.onloadend = () => {
+                //         const contentState = editorState.getCurrentContent();
+                //         const contentStateWithImage = contentState.createEntity('IMAGE', 'IMMUTABLE', { src: reader.result });
+                //         const entityKey = contentStateWithImage.getLastCreatedEntityKey();
+                //         if (!entityKey) {
+                //             console.error('Entity Key is undefined');
+                //             return; // 提前返回以避免后续错误
+                //         }
+                //         const newState = EditorState.push(editorState, contentStateWithImage, 'insert-characters');
+                //         setEditorState(AtomicBlockUtils.insertAtomicBlock(newState, entityKey, ' '));
+                //     };
+                //     reader.readAsDataURL(file);
+                // };
+                // fileInput.click();
+            },
+        },
+        {
+            icon: <TableViewOutlinedIcon />,
+            tip: () => null,
+            func: (editorState, setEditorState) => {
+
+            },
+        },
+    ]
+
+]
+
+const Image = (props) => {
+    const { src } = props.contentState.getEntity(props.entityKey).getData();
+    return <img src={src} alt="Uploaded" style={{ maxWidth: '100%' }} />;
+};
+const blockRenderer = (block) => {
+    if (block.getType() === 'atomic') {
+        return {
+            component: Image,
+            editable: false,
+        };
+    }
+    return null;
+};
+
+
 const RichText = () => {
     const [editorState, setEditorState] = React.useState(() =>
         EditorState.createEmpty(),
     );
+    const handleToolbarClick = (func) => {
+        func(editorState, setEditorState);
+    }
     return (
-        <Editor editorState={editorState} onChange={setEditorState} />
-    )
-}
-class MyEditor extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { editorState: EditorState.createEmpty() };
-        this.onChange = editorState => this.setState({ editorState });
-        this.handleKeyCommand = this.handleKeyCommand.bind(this);
-    }
+        <>
+            <Box
+                sx={
+                    {
+                        width: '100%',
+                        padding: '10px 5px'
+                    }
+                }
+            >
+                <InputBase placeholder='请输入标题'
+                    sx={
+                        {
+                            '& > input': {
+                                padding: '10px 5px',
+                                fontSize: '20px',
+                                width: '100%',
+                            }
+                        }
+                    }
+                />
+            </Box>
 
-    handleKeyCommand(command, editorState) {
-        const newState = RichUtils.handleKeyCommand(editorState, command);
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderRadius: 1,
+                    bgcolor: 'background.paper',
+                    color: 'text.secondary',
+                    '& svg': {
+                        m: 1,
+                    },
+                    '& > .MuiButtonBase-root': {
+                        padding: '0px'
+                    }
+                }}
+            >
+                {
+                    toolbarGroups.map((group, Idx) => (
+                        <React.Fragment key={Idx}>
+                            {
+                                group.map((item, idx) => (
+                                    <Tooltip
+                                        key={idx}
+                                        title={item.tip()}
+                                    >
+                                        <IconButton
+                                            onClick={() => item.func(editorState, setEditorState)}
+                                        >{item.icon}</IconButton>
+                                    </Tooltip>
+                                ))
+                            }
 
-        if (newState) {
-            this.onChange(newState);
-            return 'handled';
-        }
+                            {
 
-        return 'not-handled';
-    }
+                                (Idx !== toolbarGroups.length - 1) && (<Divider orientation="vertical" flexItem />)
+                            }
+                        </React.Fragment>
+                    ))
+                }
 
-    render() {
-        return (
-            <Editor
-                editorState={this.state.editorState}
-                handleKeyCommand={this.handleKeyCommand}
-                onChange={this.onChange}
+            </Box>
+            <Editor editorState={editorState} onChange={setEditorState}
+            // blockRendererFn={blockRenderer}
             />
-        );
-    }
+        </>
+
+    )
 }
