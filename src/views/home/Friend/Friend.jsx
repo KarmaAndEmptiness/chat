@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { NotificationsNoneOutlined as NotificationsNoneOutlinedIcon, Notifications as NotificationsIcon } from '@mui/icons-material';
 import SubNav from '../../../components/SubNav';
 
@@ -52,11 +52,7 @@ export default function Friend() {
     return (
         <>
             <SubNav title='通讯录' navs={navs} baseRoute='friend'>
-                <Route index path='friend-note' element={<FriendNote />} />
-                <Route path='group-note' element={<GroupNote />} />
-                <Route path='my-friends' element={<MyFriends />} />
-                <Route path='my-group' element={<MyGroup />} />
-                <Route path='open-group' element={<OpenGroup />} />
+                <Outlet />
             </SubNav>
         </>
     )

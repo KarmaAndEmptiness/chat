@@ -3,6 +3,9 @@ import { Alert, Box, Button, Divider, IconButton, InputBase, MenuItem, OutlinedI
 import { PanoramaOutlined as PanoramaOutlinedIcon, TableViewOutlined as TableViewOutlinedIcon, FormatListBulletedOutlined as FormatListBulletedOutlinedIcon, FormatListNumberedOutlined as FormatListNumberedOutlinedIcon, ViewHeadlineOutlined as ViewHeadlineOutlinedIcon, FormatUnderlinedOutlined as FormatUnderlinedOutlinedIcon, StrikethroughSOutlined as StrikethroughSOutlinedIcon, FormatSizeOutlined as FormatSizeOutlinedIcon, FormatColorTextOutlined as FormatColorTextOutlinedIcon, FormatQuoteOutlined as FormatQuoteOutlinedIcon, FormatItalicOutlined as FormatItalicOutlinedIcon, UndoOutlined as UndoOutlinedIcon, RedoOutlined as RedoOutlinedIcon, FormatBoldOutlined as FormatBoldOutlinedIcon, FormatAlignCenterOutlined as FormatAlignCenterOutlinedIcon, FormatAlignLeftOutlined as FormatAlignLeftOutlinedIcon, FormatAlignRightOutlined as FormatAlignRightOutlinedIcon, AddRounded as AddRoundedIcon, Close as CloseIcon, ManageSearchOutlined as ManageSearchOutlinedIcon } from '@mui/icons-material'
 import 'draft-js/dist/Draft.css'
 import { Editor, EditorState, RichUtils, Modifier, AtomicBlockUtils } from 'draft-js'
+
+import { HomeContext } from './Home'
+
 const menus = [
     {
         name: "近期编辑",
@@ -210,6 +213,7 @@ const LeftNav = () => {
 }
 
 const RightBox = () => {
+    const { homeLeftNavOpen } = React.useContext(HomeContext);
     return (
         <>
             <Stack

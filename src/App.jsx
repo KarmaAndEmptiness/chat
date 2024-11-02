@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useMemo, useEffect, createContext } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, RouterProvider } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -9,9 +9,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import '../scss/base.scss'
 import '../scss/draft-editor.scss'
-import Login from './views/login/Login'
-import Register from './views/register/Register'
-import Home from './views/home/Home'
+
+import router from '@/router'
 
 // 创建 Theme Context
 export const ThemeContext = createContext();
@@ -51,33 +50,21 @@ const App = () => {
             <ThemeContext.Provider value={{ mode, toggleTheme }}>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
-                    <BrowserRouter>
-                        <Suspense fallback={
-                            <div style={
-                                {
-                                    height: '100vh',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }
-                            }>
-                                <CircularProgress />
-                            </div>
-                        }
-                        >
-                            <Routes>
-                                <Route path="login" name="Login Page" element={
-                                    <Login />
-                                } />
-                                <Route path="register" name="Register Page" element={
-                                    <Register />
-                                } />
-                                <Route path="/*" name="Home Page" element={
-                                    <Home />
-                                } />
-                            </Routes>
-                        </Suspense>
-                    </BrowserRouter>
+                    <Suspense fallback={
+                        <div style={
+                            {
+                                height: '100vh',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }
+                        }>
+                            <CircularProgress />
+                        </div>
+                    }
+                    >
+                        <RouterProvider router={router} />
+                    </Suspense>
                 </ThemeProvider>
             </ThemeContext.Provider>
 
