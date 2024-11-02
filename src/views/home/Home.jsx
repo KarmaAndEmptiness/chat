@@ -1,20 +1,15 @@
-import React, { useState, Suspense } from 'react'
+import React, { useState, Suspense, createContext } from 'react'
 
 import { styled, useTheme } from '@mui/material/styles';
 
 import { CircularProgress, Box, Avatar, Drawer as MuiDrawer, AppBar as MuiAppBar, Toolbar, List, Typography, Divider, IconButton, Badge, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 import { ExitToAppOutlined as ExitToAppOutlinedIcon, ChevronLeft as ChevronLeftIcon, MessageOutlined as MessageOutlinedIcon, MessageRounded as MessageRoundedIcon, AccountBoxOutlined as AccountBoxOutlinedIcon, AccountBoxRounded as AccountBoxRoundedIcon, NoteAltOutlined as NoteAltOutlinedIcon, NoteAltRounded as NoteAltRoundedIcon, SettingsOutlined as SettingsOutlinedIcon, Settings as SettingsIcon } from '@mui/icons-material';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-
-const Message = React.lazy(() => import('./Message'))
-const Friend = React.lazy(() => import('./Friend/Friend'))
-const Note = React.lazy(() => import('./Note'))
-const Setting = React.lazy(() => import('./Setting/Setting'))
+import { useNavigate, Outlet } from 'react-router-dom';
 
 import avatar from '~/assets/img/bg.jpg'
 
-
+export const HomeContext = createContext();
 const drawerWidth = 240;
 const navs = [
     {
@@ -316,36 +311,25 @@ const Home = () => {
                     }
                 }}>
                     <DrawerHeader />
-                    <Suspense fallback={
-                        <div style={
-                            {
-                                height: '100%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }
-                        }>
-                            <CircularProgress />
-                        </div>
-                    }
-                    >
-                        <Routes>
-                            <Route index name="message page" path='message' element={
-                                <Message />
-                            } />
-                            <Route name="friend page" path='friend/*' element={
-                                <Friend />
-                            } />
-                            <Route name="Note page" path='note' element={
-                                <Note />
-                            } />
-                            <Route name="Setting page" path='setting/*' element={
-                                <Setting />
-                            } />
 
-                        </Routes>
-                        {/* <Outlet /> */}
-                    </Suspense>
+                    <HomeContext.Provider value={{ homeLeftNavOpen: open }}>
+                        <Suspense fallback={
+                            <div style={
+                                {
+                                    height: '100%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }
+                            }>
+                                <CircularProgress />
+                            </div>
+                        }
+                        >
+                            <Outlet />
+                        </Suspense>
+                    </HomeContext.Provider>
+
                 </Box>
             </Box>
         </>

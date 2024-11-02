@@ -88,9 +88,8 @@ export default function SubNav({ navs, title, children, baseRoute }) {
                             </div>
                         }
                     >
-                        <Routes>
-                            {children}
-                        </Routes>
+                        {children}
+
                     </Suspense>
                 </div>
             </div>
