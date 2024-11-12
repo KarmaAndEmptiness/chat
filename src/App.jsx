@@ -8,7 +8,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import '../scss/base.scss'
-import '../scss/draft-editor.scss'
+import '../scss/quill.scss'
 
 import router from '@/router'
 

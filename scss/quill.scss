@@ -1,0 +1,27 @@
+.quill {
+    max-width: 903px;
+    padding: 10px;
+    font-size: 25px;
+    scrollbar-width: thin;
+    height: calc(100% - 43px);
+
+    &>.ql-container {
+
+
+        .ql-tooltip {
+            left: 0px !important;
+        }
+    }
+
+    &>.ql-container.ql-snow {
+        border: none;
+        overflow: auto;
+    }
+
+    &>.ql-toolbar.ql-snow {
+        border: none;
+        padding: 0;
+    }
+
+
+}

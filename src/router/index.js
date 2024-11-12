@@ -5,9 +5,9 @@ import Login from '@/views/login/Login'
 import Register from '@/views/register/Register'
 import Home from '@/views/home/Home'
 
-const Message = React.lazy(() => import('@/views/home/Message'))
+const Message = React.lazy(() => import('@/views/home/Message/Message'))
 const Friend = React.lazy(() => import('@/views/home/Friend/Friend'))
-const Note = React.lazy(() => import('@/views/home/Note'))
+const Note = React.lazy(() => import('@/views/home/Note/Note'))
 const Setting = React.lazy(() => import('@/views/home/Setting/Setting'))
 
 const FriendNote = React.lazy(() => import('@/views/home/Friend/FriendNote'))
