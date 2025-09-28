@@ -18,3 +18,12 @@ export function getToken(): string {
 export function isLogin(): boolean {
   return getToken() != ''
 }
+
+/**
+ * 设置登录授权 Token
+ *
+ * @returns token
+ */
+export function setToken(token: string, expire: number): void {
+  storage.set(ACCESS_tOKEN, token, expire)
+}

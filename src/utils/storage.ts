@@ -32,8 +32,11 @@ class Storage {
         return this.storage.getItem(this.toCacheKey(key))
     }
 
-    set(key: string, val:string):void {
-        this.storage.setItem(this.toCacheKey(key),val)
+    set(key: string, val:string, expire:number = 60 * 60 * 24):void {
+        this.storage.setItem(this.toCacheKey(key),JSON.stringify({
+        val,
+        expire: expire? new Date().getTime() + expire * 1000 : null
+      }))
     }
 
     remove(key:string):void {

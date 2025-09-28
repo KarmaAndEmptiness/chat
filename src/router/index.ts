@@ -22,6 +22,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
     path: "/",
     name: "home",
     component: MainLayout,
+    meta: { auth: true },
   },
 ];
 
