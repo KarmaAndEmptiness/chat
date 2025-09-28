@@ -20,6 +20,20 @@ const onLogin:(evt: MouseEvent) => any = async (evt: MouseEvent) => {
     console.log(data);
     router.push(route.params?.redirect as string || '/')
 };
+
+const onTestAccountClick:(type:number)=>void = (type:number) => {
+    switch(type) {
+        case 1:
+            loginForm.mobile = import.meta.env.VITE_TEST_ACCOUNT_1;
+            loginForm.password = import.meta.env.VITE_TEST_ACCOUNT_1_PASSWD;
+            break;
+        case 2:
+            loginForm.mobile = import.meta.env.VITE_TEST_ACCOUNT_2;
+            loginForm.password = import.meta.env.VITE_TEST_ACCOUNT_2_PASSWD;
+            break;
+    }
+    onLogin(new MouseEvent('click'));
+}
 </script>
 <template>
     <el-card class="login-card">
@@ -32,6 +46,10 @@ const onLogin:(evt: MouseEvent) => any = async (evt: MouseEvent) => {
             </el-form-item>
             <el-form-item>
                 <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" />
+            </el-form-item>
+            <el-form-item>
+                <el-button link @click="onTestAccountClick(1)">预览账号1</el-button>
+                <el-button link @click="onTestAccountClick(2)">预览账号2</el-button>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" style="width: 100%;" @click="onLogin">登录</el-button>

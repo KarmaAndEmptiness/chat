@@ -2,7 +2,7 @@
 <template>
     <el-container class="login-layout">
         <el-header id="logo-name">Hola Chat</el-header>
-        <el-main style="display: flex; justify-content: center; align-items: center;">
+        <el-main class="login-main">
             <router-view />
         </el-main>
         <el-footer>
@@ -16,7 +16,7 @@
 </template>
 <style lang="less" scoped>
 .login-layout {
-    height: 100vh;
+    height: 100%;
 
     #logo-name {
         width: 200px;
@@ -29,6 +29,12 @@
         color: #2196f3;
         margin-top: 20px;
         margin-left: 50px;
+    }
+
+    .login-main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .copyright {

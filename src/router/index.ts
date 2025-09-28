@@ -13,18 +13,11 @@ import type {
   NavigationGuardReturn,
   _Awaitable,
 } from "vue-router";
-import MainLayout from "@/layouts/MainLayout.vue";
 import { isLogin } from "@/utils/auth";
 import authRoutes from "./auth";
-const routes: Readonly<RouteRecordRaw[]> = [
-  authRoutes,
-  {
-    path: "/",
-    name: "home",
-    component: MainLayout,
-    meta: { auth: true },
-  },
-];
+import homeRoutes from "./home";
+
+const routes: Readonly<RouteRecordRaw[]> = [authRoutes, homeRoutes];
 
 const mode: string = import.meta.env.VITE_ROUTER_MODE;
 const getHistoryMode = (): RouterHistory => {
