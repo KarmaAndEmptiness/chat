@@ -37,7 +37,10 @@ const authGuard: NavigationGuardWithThis<undefined> = (
   if (to.meta?.auth && !login) {
     return { path: "/auth/login", query: { redirect: to.fullPath } };
   }
-  if (["/auth/login"].includes(to.path) && login) {
+  if (
+    ["/auth/login", "/auth/register", "/auth/forget"].includes(to.path) &&
+    login
+  ) {
     return { path: "/" };
   }
 };

@@ -27,3 +27,10 @@ export function isLogin(): boolean {
 export function setToken(token: string, expire: number): void {
   storage.set(ACCESS_tOKEN, token, expire)
 }
+
+/**
+ * 删除登录授权 Token
+ */
+export function removeToken(): void {
+  storage.remove(ACCESS_tOKEN)
+}

@@ -2,27 +2,30 @@
 import { login, type LoginRequest, type LoginResponse, type Platform } from '@/apis/auth';
 import { setToken } from '@/utils/auth';
 import { rsaEncrypt } from '@/utils/rsa';
+import wsSingleton from '@/utils/ws-singleton';
 import { reactive, type Reactive } from 'vue';
 import { useRoute, useRouter, type RouteLocationNormalizedLoadedGeneric, type Router } from 'vue-router';
-const router:Router = useRouter();
-const route:RouteLocationNormalizedLoadedGeneric = useRoute();
-const platform:Platform  = import.meta.env.VITE_PLATFORM as Platform;
-const loginForm:Reactive<LoginRequest> = reactive({
+const router: Router = useRouter();
+const route: RouteLocationNormalizedLoadedGeneric = useRoute();
+const platform: Platform = import.meta.env.VITE_PLATFORM as Platform;
+const loginForm: Reactive<LoginRequest> = reactive({
     mobile: '',
     password: '',
-    platform, 
-}); 
-const onLogin:(evt: MouseEvent) => any = async (evt: MouseEvent) => {
-    evt.preventDefault();
+    platform,
+});
+const onLogin: (evt?: MouseEvent) => any = async (evt?: MouseEvent) => {
+    evt?.preventDefault();
+
     loginForm.password = rsaEncrypt(loginForm.password);
-    const data:LoginResponse = await login(loginForm);
-    setToken(data.access_token,data.expires_in);
-    console.log(data);
-    router.push(route.params?.redirect as string || '/')
+
+    const data: LoginResponse = await login(loginForm);
+    setToken(data.access_token, data.expires_in);
+    wsSingleton.connect()
+    router.push(route.query.redirect as string || '/')
 };
 
-const onTestAccountClick:(type:number)=>void = (type:number) => {
-    switch(type) {
+const onTestAccountClick: (type: number) => void = (type: number) => {
+    switch (type) {
         case 1:
             loginForm.mobile = import.meta.env.VITE_TEST_ACCOUNT_1;
             loginForm.password = import.meta.env.VITE_TEST_ACCOUNT_1_PASSWD;
@@ -32,7 +35,7 @@ const onTestAccountClick:(type:number)=>void = (type:number) => {
             loginForm.password = import.meta.env.VITE_TEST_ACCOUNT_2_PASSWD;
             break;
     }
-    onLogin(new MouseEvent('click'));
+    onLogin();
 }
 </script>
 <template>
@@ -42,7 +45,7 @@ const onTestAccountClick:(type:number)=>void = (type:number) => {
         </template>
         <el-form :model="loginForm">
             <el-form-item>
-                <el-input placeholder="请输入手机号" v-model="loginForm.mobile"/>
+                <el-input placeholder="请输入手机号" v-model="loginForm.mobile" />
             </el-form-item>
             <el-form-item>
                 <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" />
@@ -62,6 +65,6 @@ const onTestAccountClick:(type:number)=>void = (type:number) => {
 </template>
 <style lang="less" scoped>
 .login-card {
-    width:350px;
+    width: 350px;
 }
 </style>

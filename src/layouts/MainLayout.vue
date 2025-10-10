@@ -2,8 +2,9 @@
 import { BiLogOut } from 'vue-icons-plus/bi';
 import Avatar from './components/Avatar.vue';
 import Menu from './components/Menu.vue';
+import {useUserStore} from '@/stores/user';
 const onLogout = () => {
-    console.log('logout');
+    useUserStore().logout()
 }
 </script>
 <template>
@@ -11,7 +12,7 @@ const onLogout = () => {
         <el-aside class="main-aside">
             <el-container class="main-aside-container">
                 <el-header class="main-aside-header">
-                    <Avatar/>
+                    <Avatar />
                 </el-header>
                 <el-main>
                     <Menu />
@@ -37,21 +38,27 @@ const onLogout = () => {
 .main-layout {
     height: 100%;
 }
+
 .main-aside {
     width: fit-content;
     height: 100%;
     border-right: 1px solid var(--el-menu-border-color);
+
     .main-aside-header {
         height: fit-content;
     }
 }
+
 .main-aside-container {
     height: 100%;
 }
+
 .logout-menu {
     border-right: none;
 }
+
 .main-main {
     height: 100%;
+    padding: 0;
 }
 </style>

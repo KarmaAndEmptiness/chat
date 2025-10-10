@@ -14,7 +14,7 @@ const homeRoutes: RouteRecordRaw = {
       path: "/message",
       name: "message",
       meta: { auth: true, title: "消息" },
-      component: () => import("@/views/message/index.vue"),
+      component: () => import("@/views/message/Layout.vue"),
     },
     contactRoutes,
     {
