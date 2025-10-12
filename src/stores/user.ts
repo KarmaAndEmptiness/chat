@@ -5,6 +5,7 @@ import type { StoreDefinition } from "pinia";
 type UserStoreId = "user";
 type UserStoreState = {
   uid: number; // 用户ID
+  nickname: string;
   mobile: string;
   avatar: string;
   online: boolean;
@@ -15,7 +16,7 @@ interface IUserStoreGetters {}
 interface IUserStoreActions {
   logout(): void;
   updateOnlineStatus(status: boolean): void;
-  getUserInfo(): Promise<void>;
+  loadUserInfo(): Promise<void>;
 }
 
 export const useUserStore: StoreDefinition<
@@ -26,6 +27,7 @@ export const useUserStore: StoreDefinition<
 > = defineStore("user", {
   state: (): UserStoreState => ({
     uid: 0, // 用户ID
+    nickname: "",
     mobile: "",
     avatar: "",
     online: false,
@@ -40,13 +42,14 @@ export const useUserStore: StoreDefinition<
     updateOnlineStatus(status: boolean) {
       this.online = status;
     },
-    async getUserInfo () {
+    async loadUserInfo() {
       const data = await getUserInfo();
-      const {uid,mobile,avatar} = data.user_info
-      this.uid = uid
-      this.mobile = mobile
-      this.avatar = avatar
-      storage.set("user_info", data.user_info)
-    }
+      const { uid, mobile, avatar, nickname } = data.user_info;
+      this.uid = uid;
+      this.nickname = nickname;
+      this.mobile = mobile;
+      this.avatar = avatar;
+      storage.set("user_info", data.user_info);
+    },
   },
 });

@@ -1,8 +1,19 @@
-import { getMessageRecords, type MessageRecordsRequest } from "@/apis/message";
-import { formatChatRecord, type FormattedMessageRecord, type MessageRecord } from "@/types/message";
-import { safeParseJson } from "@/utils/message";
+import {
+  getMessageRecords,
+  sendMessage,
+  type MessageRecordsRequest,
+  type SendMessageRequest,
+} from "@/apis/message";
+import {
+  formatChatRecord,
+  type FormattedMessageRecord,
+  type MessageRecord,
+} from "@/types/message";
+import { safeParseJson, uuid } from "@/utils/message";
 import type { StoreDefinition } from "pinia";
 import { useUserStore } from "./user";
+import { ChatMsgType, MessageStatus } from "@/constants/chat";
+import { datetime } from "@/utils/datetime";
 type Member = {
   id: number;
   nickname: string;
@@ -48,12 +59,35 @@ type ChatStoreState = {
 
 interface IChatStoreGetters {}
 interface IChatStoreActions {
-  getChatRecords(): Promise<boolean>;
+  loadChatRecords(): Promise<boolean>;
   unshiftChatRecord(records: FormattedMessageRecord[]): void;
   clearChatRecord(): void;
   resetChatRecords(): void;
+  sendMessage(
+    data: Omit<SendMessageRequest, "talk_mode" | "to_from_id" | "msg_id">
+  ): Promise<void>;
+  pushRecord(data: SendMessageRequest): void;
 }
-export const useChageStore: StoreDefinition<
+
+
+
+const msgTypeMap = new Map<string, ChatMsgType>([
+ ["text", ChatMsgType.Text], 
+ ['image', ChatMsgType.Image],
+ ['file', ChatMsgType.File],
+ ['audio', ChatMsgType.Audio],
+  ['video', ChatMsgType.Video],
+  ['code', ChatMsgType.Code],
+  ['location', ChatMsgType.Location],
+  ['card', ChatMsgType.Card],
+  ['forward', ChatMsgType.Forward],
+  ['login', ChatMsgType.Login],
+  ['vote', ChatMsgType.Vote],
+  ['mixed', ChatMsgType.Mixed]
+]
+);
+
+export const useChatStore: StoreDefinition<
   ChatStoreId,
   ChatStoreState,
   IChatStoreGetters,
@@ -85,7 +119,7 @@ export const useChageStore: StoreDefinition<
       this.records = [];
     },
 
-    async getChatRecords(): Promise<boolean> {
+    async loadChatRecords(): Promise<boolean> {
       const params: MessageRecordsRequest = {
         talk_mode: this.target.talk_mode,
         to_from_id: this.target.to_from_id,
@@ -100,16 +134,44 @@ export const useChageStore: StoreDefinition<
         item.extra = safeParseJson(item.extra || "{}");
         item.quote = safeParseJson(item.quote || "{}");
         item.status = 1;
-        return formatChatRecord(useUserStore().uid, item as MessageRecord);
+        return formatChatRecord(useUserStore().uid, item);
       });
       this.unshiftChatRecord(list.reverse());
-      console.log(this.records)
       this.cursor = data.cursor;
       return data.items.length > params.limit;
     },
     resetChatRecords() {
       this.cursor = 0;
       this.clearChatRecord();
+    },
+    async sendMessage(
+      data: Omit<SendMessageRequest, "talk_mode" | "to_from_id" | "msg_id">
+    ): Promise<void> {
+      const params: SendMessageRequest = {
+        talk_mode: this.target.talk_mode,
+        to_from_id: this.target.to_from_id,
+        msg_id: uuid(),
+        ...data,
+      };
+      await sendMessage(params);
+      this.pushRecord(params);
+    },
+    pushRecord(data: SendMessageRequest) {
+      const userStore = useUserStore();
+      const record = formatChatRecord(useUserStore().uid, {
+        msg_id: data.msg_id,
+        sequence:0,
+        msg_type:msgTypeMap.get(data.type)||ChatMsgType.Text,
+        from_id: userStore.uid,
+        nickname: userStore.nickname,
+        avatar: userStore.avatar,
+        is_revoked:2,
+        extra:data.body,
+        quote:{},
+        status: MessageStatus.PENDING,
+        send_time: datetime(),
+      } as MessageRecord);
+      this.records.push(record);
     },
   },
 });

@@ -84,7 +84,7 @@ const onAddMenuSelect = (key: string) => {
 const onQueryFriend = () => {
 }
 onMounted(() => {
-    messageStore.getMessageList()
+    messageStore.loadMessageList()
 })
 </script>
 <template>

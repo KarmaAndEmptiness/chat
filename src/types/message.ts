@@ -109,7 +109,6 @@ export const formatChatRecord = (
     };
   }
   const role = from_id != userId ? RoleEnum.ASSISTANT : RoleEnum.USER;
-  console.log(from_id, userId);
   const quote = messageRecord?.quote
     ? {
         quote_id: messageRecord.quote?.quote_id || "",

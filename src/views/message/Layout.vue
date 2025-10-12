@@ -8,8 +8,8 @@ import MessageMain from './MessageMain.vue';
         <el-aside class="message-aside">
             <MessageAside />
         </el-aside>
-        <el-main style="padding-left: 0;">
-            <MessageMain/>
+        <el-main style="" class="message-main">
+            <MessageMain />
         </el-main>
     </el-container>
 </template>
@@ -23,5 +23,11 @@ import MessageMain from './MessageMain.vue';
     height: 100%;
     border-right: 1px solid var(--el-menu-border-color);
     width: fit-content;
+}
+
+.message-main {
+    padding-left: 0;
+    padding-bottom: 0;
+    padding-right: 0;
 }
 </style>

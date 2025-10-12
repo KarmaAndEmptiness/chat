@@ -1,11 +1,5 @@
 <script setup lang="ts">
 import AppProvider from './layouts/AppProvider.vue';
-import { useUserStore } from './stores/user';
-import { isLogin } from './utils/auth';
-const { getUserInfo } = useUserStore()
-onMounted(() => {
-    isLogin() && getUserInfo()
-})
 
 </script>
 
@@ -20,6 +14,7 @@ onMounted(() => {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
 }
 
 body {
@@ -38,5 +33,10 @@ body {
     /* Firefox 旧版 */
     height: stretch;
     /* 标准草案 */
+}
+
+html {
+    /* 预留滚动条空间，避免布局抖动 */
+    scrollbar-gutter: stable;
 }
 </style>

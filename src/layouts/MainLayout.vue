@@ -2,7 +2,7 @@
 import { BiLogOut } from 'vue-icons-plus/bi';
 import Avatar from './components/Avatar.vue';
 import Menu from './components/Menu.vue';
-import {useUserStore} from '@/stores/user';
+import { useUserStore } from '@/stores/user';
 const onLogout = () => {
     useUserStore().logout()
 }

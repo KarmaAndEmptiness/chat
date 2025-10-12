@@ -1,5 +1,7 @@
 import type { FormattedMessage, Message } from "@/types/message";
 import { datetime } from "./datetime";
+import type { Delta } from "quill";
+import { v4 } from "uuid";
 
 export function formatMessage(msg: Message): FormattedMessage {
   let formattedMessage: FormattedMessage = {
@@ -25,9 +27,34 @@ export function formatMessage(msg: Message): FormattedMessage {
 
 export function safeParseJson(json: string) {
   try {
-    return JSON.parse(json)
+    return JSON.parse(json);
   } catch (e) {
-    console.error(e, json)
-    return {}
+    console.error(e, json);
+    return {};
   }
+}
+
+export function deltaToText(delta: Delta): string {
+  let text = "";
+  delta.ops?.forEach((op) => {
+    if (typeof op.insert === "string") {
+      text += op.insert;
+    } else if (typeof op.insert === "object") {
+      if (op.insert.image) {
+        text += "[图片]";
+      } else if (op.insert.video) {
+        text += "[视频]";
+      } else if (op.insert.audio) {
+        text += "[音频]";
+      } else {
+        text += "[未知]";
+      }
+    }
+  });
+  return text.trim();
+}
+
+
+export function uuid(): string {
+  return v4().replace(/-/g, "");
 }

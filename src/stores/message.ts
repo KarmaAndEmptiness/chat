@@ -19,7 +19,7 @@ interface IMessageStoreGetters {
   talkUnreadNum: (state: MessageStoreGetterContext) => number;
 }
 interface IMessageStoreActions {
-  getMessageList: () => void;
+  loadMessageList: () => Promise<void>;
 }
 export const useMessageStore: StoreDefinition<
   MessageStoreId,
@@ -45,7 +45,7 @@ export const useMessageStore: StoreDefinition<
       state.items.reduce((total, item) => total + item.unread_num, 0),
   },
   actions: {
-    async getMessageList() {
+    async loadMessageList() {
       const data = await getMessageList();
       const formattedMessageList: FormattedMessage[] =
         data.items?.map((msg: Message) => {

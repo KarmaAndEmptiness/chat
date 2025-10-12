@@ -4,7 +4,7 @@ import wsSingleton from "@/utils/ws-singleton"
 
 export const useWsBindEvents = () => {
     wsSingleton.onOpen = ()=>{
-        useMessageStore().getMessageList()
+        useMessageStore().loadMessageList()
         useUserStore().updateOnlineStatus(true)
     }
 }
